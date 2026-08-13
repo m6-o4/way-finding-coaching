@@ -1,7 +1,7 @@
 services:
-  payload-template:
-    image: ghcr.io/m6o4/payload-template:latest
-    container_name: payload-template
+  way-finding:
+    image: ghcr.io/m6o4/way-finding:latest
+    container_name: way-finding
     restart: unless-stopped
     networks:
       - m6o4-prd-network
@@ -9,10 +9,11 @@ services:
       - stack.env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.payload-template.rule=Host(`payload-template.s3.co.ke`)"
-      - "traefik.http.routers.payload-template.entrypoints=websecure"
-      - "traefik.http.routers.payload-template.tls.certresolver=letsencrypt"
-      - "traefik.http.services.payload-template.loadbalancer.server.port=3000"
+      - "traefik.http.routers.way-finding.rule=Host(`way-finding.co.ke`) ||
+        Host(`www.way-finding.co.ke`)"
+      - "traefik.http.routers.way-finding.entrypoints=websecure"
+      - "traefik.http.routers.way-finding.tls.certresolver=letsencrypt"
+      - "traefik.http.services.way-finding.loadbalancer.server.port=3000"
 
 networks:
   m6o4-prd-network:

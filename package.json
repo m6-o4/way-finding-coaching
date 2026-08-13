@@ -1,7 +1,7 @@
 {
-	"name": "payload-template-project",
-	"version": "2.1.0",
-	"description": "Get started quickly with Next.js, Clerk Auth, Payload CMS and MongoDB.",
+	"name": "way-finding-coaching",
+	"version": "1.0.0",
+	"description": "Way Finding Coaching landing page.",
 	"license": "MIT",
 	"type": "module",
 	"scripts": {

@@ -1,0 +1,20 @@
+services:
+  way-finding-coaching:
+    image: ghcr.io/m6o4solutions/way-finding-prod:latest
+    container_name: way-finding-coaching
+    restart: unless-stopped
+    env_file:
+      - stack.env
+    networks:
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.way-finding-prod.rule=Host(`way-finding.co.ke`) || Host(`www.way-finding.co.ke`)"
+      - "traefik.http.routers.way-finding-prod.entrypoints=websecure"
+      - "traefik.http.routers.way-finding-prod.tls.certresolver=letsencrypt"
+      - "traefik.http.services.way-finding-prod.loadbalancer.server.port=3000"
+
+networks:
+  traefik-network:
+    external: true
+    name: traefik-network

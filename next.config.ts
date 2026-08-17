@@ -13,11 +13,11 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "s3.co.ke",
+				hostname: "way-finding.co.ke",
 			},
 			{
 				protocol: "https",
-				hostname: "*.s3.co.ke",
+				hostname: "*.way-finding.co.ke",
 			},
 			{
 				protocol: "http",

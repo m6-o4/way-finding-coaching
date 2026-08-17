@@ -47,7 +47,7 @@ export default buildConfig({
 			],
 
 			// append a suffix to the browser title for all admin pages
-			titleSuffix: " | Superior Software Solutions",
+			titleSuffix: " | Way Finding Coaching",
 		},
 
 		// set the users collection slug for authentication management

@@ -1,7 +1,7 @@
 services:
-  way-finding:
-    image: ghcr.io/m6o4/way-finding:latest
-    container_name: way-finding
+  way-finding-coaching:
+    image: ghcr.io/m6-o4/way-finding-coaching:latest
+    container_name: way-finding-coaching
     restart: unless-stopped
     networks:
       - m6o4-prd-network
@@ -9,11 +9,11 @@ services:
       - stack.env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.way-finding.rule=Host(`way-finding.co.ke`) ||
+      - "traefik.http.routers.way-finding-coaching.rule=Host(`way-finding.co.ke`) ||
         Host(`www.way-finding.co.ke`)"
-      - "traefik.http.routers.way-finding.entrypoints=websecure"
-      - "traefik.http.routers.way-finding.tls.certresolver=letsencrypt"
-      - "traefik.http.services.way-finding.loadbalancer.server.port=3000"
+      - "traefik.http.routers.way-finding-coaching.entrypoints=websecure"
+      - "traefik.http.routers.way-finding-coaching.tls.certresolver=letsencrypt"
+      - "traefik.http.services.way-finding-coaching.loadbalancer.server.port=3000"
 
 networks:
   m6o4-prd-network:

@@ -32,8 +32,8 @@ const generateMeta = async (args: {
 
 	// append site name to meta title if available
 	const title = doc?.meta?.title
-		? doc.meta.title + " | Superior Software Solutions"
-		: "Superior Software Solutions";
+		? doc.meta.title + " | Way Finding Coaching"
+		: "Way Finding Coaching";
 
 	// compose and return metadata object
 	return {

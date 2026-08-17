@@ -5,14 +5,10 @@ import type { Metadata } from "next";
 const defaultOpenGraph: Metadata["openGraph"] = {
 	type: "website",
 	description:
-		"Superior Software Solutions delivers trusted, modern technology solutions that help businesses grow with confidence.",
-	images: [
-		{
-			url: `${getServerSideURL()}/abstract-image.jpg`,
-		},
-	],
-	siteName: "Superior Software Solutions",
-	title: "Superior Software Solutions",
+		"We guide growth-minded individuals and teams from internal conflict to a clear, focused, and vibrant life. It's time to build the future you deserve",
+	images: [{ url: `${getServerSideURL()}/way-finding-og.webp` }],
+	siteName: "Way Finding Coaching",
+	title: "Way Finding Coaching",
 };
 
 // merges provided open graph data with defaults to ensure required fields exist

@@ -786,6 +786,45 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  organizationName?: string | null;
+  organizationLogo?: (string | null) | Media;
+  navigationItems?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  discovery: {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -813,6 +852,35 @@ export interface Branding {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  organizationName?: T;
+  organizationLogo?: T;
+  navigationItems?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  discovery?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

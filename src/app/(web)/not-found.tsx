@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Container } from "@/components/container";
-import { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
 	return (
@@ -13,9 +13,11 @@ const NotFound = () => {
 					Sorry! The page you are looking for either does not exist or has been moved.
 				</p>
 
-				<Link href="/" className={buttonVariants({ variant: "default", size: "lg" })}>
-					Return to Homepage
-				</Link>
+				<Button
+					render={<Link href="/">Return to Homepage</Link>}
+					nativeButton={false}
+					className="w-full sm:w-auto"
+				/>
 			</div>
 		</Container>
 	);

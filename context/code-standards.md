@@ -186,7 +186,7 @@ export { ProgramCard };
 pnpm dlx shadcn@latest add dialog
 ```
 
-`components.json` is configured (`style: new-york`, `baseColor: neutral`,
+`components.json` is configured (`style: base-nova`, `baseColor: neutral`,
 Base UI-backed). Anything in `components/ui/` arrives through that command
 and is then customized in place if needed. **Never hand-author a file into
 `components/ui/`** — a hand-rolled component diverges from the real one in

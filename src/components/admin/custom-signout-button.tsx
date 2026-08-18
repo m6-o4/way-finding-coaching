@@ -11,9 +11,7 @@ const CustomSignOutButton = () => {
 	};
 
 	return (
-		<Button variant="destructive" size="lg" onClick={handleSignOut}>
-			Log out
-		</Button>
+		<Button onClick={handleSignOut}>Log out</Button>
 	);
 };
 

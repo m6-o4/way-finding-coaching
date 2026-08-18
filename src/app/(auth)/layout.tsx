@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
-import { geist } from "@/lib/fonts";
+import { heading, sans } from "@/lib/fonts";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 
 // load foundational styles for the application auth
@@ -12,7 +12,7 @@ const metadata: Metadata = {
 	description: "Sign in to continue.",
 	robots: { follow: false, index: false },
 	title: "Sign In | Way Finding Coaching",
-	icons: "/favicon.png",
+	icons: "/favicon.svg",
 };
 
 // root layout for the auth group. renders html/body directly because this
@@ -22,13 +22,12 @@ const AuthLayout = (props: { children: ReactNode }) => {
 
 	return (
 		<ClerkProvider>
-			<html lang="en" suppressHydrationWarning>
-				<body
-					className={cn(
-						"bg-muted flex min-h-screen items-center justify-center p-4",
-						geist.className,
-					)}
-				>
+			<html
+				lang="en"
+				suppressHydrationWarning
+				className={cn(sans.variable, heading.variable)}
+			>
+				<body className="bg-muted flex min-h-screen items-center justify-center p-4">
 					<ThemeProvider
 						attribute="class"
 						defaultTheme="dark"

@@ -97,9 +97,11 @@ Headings use `--foreground` (charcoal in light mode, warm off-white in dark),
 the same as body text, and differentiate purely through typeface (serif vs.
 sans) and weight — there is no separate heading color token in this project.
 
-`--font-heading` and `--font-sans` are scaffolded in `globals.css`'s `@theme`
-block as self-referencing placeholders, awaiting actual webfont loading via
-`next/font/google` once the Next.js scaffold exists — not wired up yet.
+`--font-heading` and `--font-sans` are wired via `next/font/google` in
+`src/lib/fonts.ts` (`heading` → Libre Caslon Text, `sans` → Hanken Grotesk),
+exposed as CSS variables on each root layout's `<html>` element. The
+`@theme` block maps `--font-heading` / `--font-sans` to those variables, and
+`@layer base` applies `font-heading` to `h1`–`h6`.
 
 ### Type scale
 

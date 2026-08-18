@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
-import { geist } from "@/lib/fonts";
+import { heading, sans } from "@/lib/fonts";
 import { Footer } from "@/payload/blocks/globals/footer/component";
 import { Header } from "@/payload/blocks/globals/header/component";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -19,13 +19,12 @@ const WebLayout = (props: { children: ReactNode }) => {
 
 	return (
 		<ClerkProvider>
-			<html lang="en" suppressHydrationWarning>
-				<body
-					className={cn(
-						"bg-muted flex min-h-screen flex-col antialiased",
-						geist.className,
-					)}
-				>
+			<html
+				lang="en"
+				suppressHydrationWarning
+				className={cn(sans.variable, heading.variable)}
+			>
+				<body className="bg-muted flex min-h-screen flex-col antialiased">
 					<ThemeProvider
 						attribute="class"
 						defaultTheme="light"
@@ -53,7 +52,7 @@ const metadata: Metadata = {
 	metadataBase: new URL(getServerSideURL()),
 	openGraph: mergeOpenGraph(),
 	twitter: { card: "summary_large_image", creator: "@m6-o4" },
-	icons: { icon: [{ url: "/favicon.png", type: "image/png" }] },
+	icons: { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
 };
 
 export { WebLayout as default, metadata };

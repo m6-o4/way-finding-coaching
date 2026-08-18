@@ -21,6 +21,24 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-19] — Footer built out (CMS-driven)
+- **What was built**: populated the `footer` global schema and built its
+  front-end — a full-width `bg-secondary` band with a serif wordmark that links
+  home, slogan, CMS nav links, and a copyright line; added a custom `RowLabel`
+  for the nav-items array.
+- **Files touched**: `src/payload/blocks/globals/footer/schema.ts`,
+  `src/payload/blocks/globals/footer/component.tsx`,
+  `src/payload/blocks/globals/footer/component-client.tsx`,
+  `src/payload/blocks/globals/footer/row-label.tsx`.
+- **Notes**: all footer text uses `text-secondary-foreground` because
+  `--secondary` stays light in both modes — `text-primary`/`text-muted-foreground`
+  on it hit ~1:1 contrast in dark mode. `FooterClient` is a server component (no
+  `"use client"`) despite the `-client` suffix. `row-label.tsx` references
+  `Footer["navItems"]` (the header global uses `navigationItems`, so the scaffold
+  copy pointed at the wrong type). Cross-ref build-plan 1.1: the `footer` global's
+  planned `ownerNotificationEmail` field is not yet added; `navItems` is capped at
+  5 via `maxRows`.
+
 ### [2026-08-18] — Header reworked to floating pill design
 - **What was built**: replaced the scaffold's fixed full-width header (Sheet-based
   mobile menu) with a floating, rounded pill nav — absolute-positioned,

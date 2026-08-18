@@ -26,7 +26,7 @@ const Header: GlobalConfig = {
 			label: "Navigation Items",
 			labels: { singular: "Navigation Item", plural: "Navigation Items" },
 			fields: [link({ appearances: false })],
-			maxRows: 3,
+			maxRows: 2,
 			admin: {
 				components: { RowLabel: "@/payload/blocks/globals/header/row-label#RowLabel" },
 				initCollapsed: true,

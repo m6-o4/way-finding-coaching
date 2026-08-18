@@ -1,22 +1,23 @@
 # [1.2.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.1.0...v1.2.0) (2026-08-18)
 
-
 ### Features
 
-* **fonts:** wire finalized brand typography ([4975233](https://github.com/m6-o4/way-finding-coaching/commit/4975233ee6f836e0f8f014fa315834bf729532ec))
-* **header:** add configurable global header with navigation items ([0fb5ffa](https://github.com/m6-o4/way-finding-coaching/commit/0fb5ffa00b7bbd2bc52cd815676a8df55d2c0273))
+- **fonts:** wire finalized brand typography
+  ([4975233](https://github.com/m6-o4/way-finding-coaching/commit/4975233ee6f836e0f8f014fa315834bf729532ec))
+- **header:** add configurable global header with navigation items
+  ([0fb5ffa](https://github.com/m6-o4/way-finding-coaching/commit/0fb5ffa00b7bbd2bc52cd815676a8df55d2c0273))
 
 # [1.1.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.0.0...v1.1.0) (2026-08-18)
 
-
 ### Bug Fixes
 
-* **config:** update remote image hostnames to way-finding.co.ke ([6090f79](https://github.com/m6-o4/way-finding-coaching/commit/6090f798ea3bcb8e19e447e42da08352bc3e2ab9))
-
+- **config:** update remote image hostnames to way-finding.co.ke
+  ([6090f79](https://github.com/m6-o4/way-finding-coaching/commit/6090f798ea3bcb8e19e447e42da08352bc3e2ab9))
 
 ### Features
 
-* **theme:** implement warm earth-tone design tokens ([3cdb2aa](https://github.com/m6-o4/way-finding-coaching/commit/3cdb2aaf134e24146a2915cdf5f839f6ba8a112f))
+- **theme:** implement warm earth-tone design tokens
+  ([3cdb2aa](https://github.com/m6-o4/way-finding-coaching/commit/3cdb2aaf134e24146a2915cdf5f839f6ba8a112f))
 
 # 1.0.0 (2026-08-17)
 

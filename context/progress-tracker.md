@@ -21,6 +21,18 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-18] — Header reworked to floating pill design
+- **What was built**: replaced the scaffold's fixed full-width header (Sheet-based
+  mobile menu) with a floating, rounded pill nav — absolute-positioned,
+  translucent `bg-card` pill with a serif primary wordmark, muted nav links, a
+  primary pill CTA, and a plain conditional mobile dropdown.
+- **Files touched**: `src/payload/blocks/globals/header/component-client.tsx`.
+- **Notes**: dropped `Sheet` for a plain `menuOpen` conditional dropdown; removed
+  `Container` and `Sheet` imports. Stays CMS-driven (`organizationName`,
+  `organizationLogo`, `navigationItems`, `discovery`). Per design system: no
+  shadows, `font-heading` (not `font-serif`), token radii. Nav links carry no
+  explicit size class (inherit body size) after Michael removed `text-sm`.
+
 ### [2026-08-18] — Brand font wiring
 - **What was built**: wired the finalized brand typography — Libre Caslon Text
   (headings/display/quotes) and Hanken Grotesk (body/labels/UI) — via

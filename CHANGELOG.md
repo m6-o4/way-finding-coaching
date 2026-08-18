@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.1.0...v1.2.0) (2026-08-18)
+
+
+### Features
+
+* **fonts:** wire finalized brand typography ([4975233](https://github.com/m6-o4/way-finding-coaching/commit/4975233ee6f836e0f8f014fa315834bf729532ec))
+* **header:** add configurable global header with navigation items ([0fb5ffa](https://github.com/m6-o4/way-finding-coaching/commit/0fb5ffa00b7bbd2bc52cd815676a8df55d2c0273))
+
 # [1.1.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.0.0...v1.1.0) (2026-08-18)
 
 

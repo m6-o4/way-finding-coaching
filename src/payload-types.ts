@@ -202,7 +202,7 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive)[];
+  layout: (Hero | PostsArchive | ContentEditor)[];
   meta?: {
     title?: string | null;
     /**
@@ -363,6 +363,33 @@ export interface PostsArchive {
   id?: string | null;
   blockName?: string | null;
   blockType: 'postsArchive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentEditor".
+ */
+export interface ContentEditor {
+  headline?: string | null;
+  headlineDescription?: string | null;
+  editor?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  backgroundVariant: 'muted' | 'background';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contentEditor';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -646,6 +673,7 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroSelect<T>;
         postsArchive?: T | PostsArchiveSelect<T>;
+        contentEditor?: T | ContentEditorSelect<T>;
       };
   meta?:
     | T
@@ -713,6 +741,18 @@ export interface PostsArchiveSelect<T extends boolean = true> {
   categories?: T;
   limit?: T;
   selectedDocs?: T;
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentEditor_select".
+ */
+export interface ContentEditorSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  editor?: T;
   backgroundVariant?: T;
   id?: T;
   blockName?: T;

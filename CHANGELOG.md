@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.4.0...v1.5.0) (2026-08-19)
+
+
+### Features
+
+* **payload:** add archive block to CMS pages ([932ad4e](https://github.com/m6-o4/way-finding-coaching/commit/932ad4efe0ded64d64d746a718576b10838310ff))
+
 # [1.4.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.3.0...v1.4.0) (2026-08-19)
 
 ### Features

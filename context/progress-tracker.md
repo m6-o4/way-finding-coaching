@@ -21,6 +21,32 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-19] — Hero block reworked to full-bleed designs
+- **What was built**: reworked both `hero` block variants into full-bleed headers
+  driven by the `backgroundVariant` field (`background` → `bg-background`, `muted`
+  → `bg-muted`). Primary: a full-height hero with the `heroImage` media
+  multiply-blended over a gradient fading to `--background`, an overline, serif
+  headline, description, and two pill CTAs (`ctaDiscovery` primary + `ctaFreeGuide`
+  secondary). Secondary: a centered internal-page header with a multiply-blended
+  image under a `bg-primary/30` overlay, headline, and description. Added the
+  `heroImage` upload field and made `heroOverline` available to both hero types in
+  the schema.
+- **Files touched**: `src/payload/blocks/hero/schema.ts`,
+  `src/payload/blocks/hero/component.tsx`.
+- **Notes**: dropped the scaffold's "Mjakazi"/Nairobi placeholder content,
+  hardcoded Unsplash images, and shadows. Headline renders `heroHeadline` directly
+  (removed the `|`-split accent used by the header wordmark). CTAs use the `Button`
+  component's `default` and `secondary` variants — the provided snippet's
+  `bg-accent` secondary was replaced because `--accent` is not a CTA color per the
+  design system. The secondary hero's original `bg-primary` + `mix-blend-screen` +
+  `text-primary-foreground` treatment was swapped for the `backgroundVariant` base,
+  `mix-blend-multiply`, and `text-primary`/`text-foreground` text so it stays
+  readable in both modes (`--primary-foreground` is white on light / near-black on
+  dark, unreadable off `--primary`). `id="top"` on both sections matches the
+  footer's `#top` home fallback. Known follow-up: the primary hero's gradient
+  overlay still fades to an opaque `to-background`, which masks the `muted`
+  variant at the bottom of the hero. Cross-ref build-plan 1.2 (hero block).
+
 ### [2026-08-19] — Footer built out (CMS-driven)
 - **What was built**: populated the `footer` global schema and built its
   front-end — a full-width `bg-secondary` band with a serif wordmark that links

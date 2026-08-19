@@ -2,7 +2,7 @@ import {
 	isAdminOrEditor,
 	isAdminOrEditorOrPublished,
 } from "@/payload/access/access-control";
-import { Archive } from "@/payload/blocks/archive/schema";
+import { Hero } from "@/payload/blocks/hero/schema";
 import {
 	revalidateDelete,
 	revalidatePage,
@@ -64,7 +64,7 @@ const Pages: CollectionConfig<"pages"> = {
 							type: "blocks",
 							required: true,
 							admin: { initCollapsed: true },
-							blocks: [Archive],
+							blocks: [Hero],
 						},
 					],
 				},

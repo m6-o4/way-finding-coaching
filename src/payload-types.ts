@@ -204,7 +204,7 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive | ContentEditor)[];
+  layout: (Hero | PostsArchive | ContentEditor | CallToAction)[];
   meta?: {
     title?: string | null;
     /**
@@ -392,6 +392,16 @@ export interface ContentEditor {
   id?: string | null;
   blockName?: string | null;
   blockType: 'contentEditor';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToAction".
+ */
+export interface CallToAction {
+  calltoaction: string | Callstoaction;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -725,6 +735,7 @@ export interface PagesSelect<T extends boolean = true> {
         hero?: T | HeroSelect<T>;
         postsArchive?: T | PostsArchiveSelect<T>;
         contentEditor?: T | ContentEditorSelect<T>;
+        callToAction?: T | CallToActionSelect<T>;
       };
   meta?:
     | T
@@ -805,6 +816,15 @@ export interface ContentEditorSelect<T extends boolean = true> {
   headlineDescription?: T;
   editor?: T;
   backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToAction_select".
+ */
+export interface CallToActionSelect<T extends boolean = true> {
+  calltoaction?: T;
   id?: T;
   blockName?: T;
 }

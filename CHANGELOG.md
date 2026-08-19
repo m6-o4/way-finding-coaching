@@ -1,10 +1,11 @@
 # [1.4.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.3.0...v1.4.0) (2026-08-19)
 
-
 ### Features
 
-* **hero:** add CMS-driven hero block with full-bleed variants ([1c9c463](https://github.com/m6-o4/way-finding-coaching/commit/1c9c463a21e22efde245f19f6acf1e6254037b77))
-* **payload:** add reusable link component for CMS content ([75a47aa](https://github.com/m6-o4/way-finding-coaching/commit/75a47aaec10253027c16cde72ab9d9258b56f075))
+- **hero:** add CMS-driven hero block with full-bleed variants
+  ([1c9c463](https://github.com/m6-o4/way-finding-coaching/commit/1c9c463a21e22efde245f19f6acf1e6254037b77))
+- **payload:** add reusable link component for CMS content
+  ([75a47aa](https://github.com/m6-o4/way-finding-coaching/commit/75a47aaec10253027c16cde72ab9d9258b56f075))
 
 # [1.3.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.2.0...v1.3.0) (2026-08-18)
 

@@ -1,3 +1,18 @@
+# [1.6.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.5.0...v1.6.0) (2026-08-19)
+
+
+### Bug Fixes
+
+* **hero:** conditionally show overline only for primary hero type ([f20f1bf](https://github.com/m6-o4/way-finding-coaching/commit/f20f1bfc74fdf79ed874e0878235b9b5fd82e3bc))
+
+
+### Features
+
+* **blocks:** add content editor block to page layouts ([e354a6d](https://github.com/m6-o4/way-finding-coaching/commit/e354a6d6c570cb4db5bffa491f098c3daa608b7a))
+* **blocks:** integrate call-to-action block into page builder ([a9aabfb](https://github.com/m6-o4/way-finding-coaching/commit/a9aabfb0abe7a27255176a6879b7deb434224228))
+* **blocks:** replace archive block with posts archive block ([18adf2a](https://github.com/m6-o4/way-finding-coaching/commit/18adf2a72bfa56474ffdccfd5a005d4f2871bc10))
+* **collections:** add calls-to-action collection ([bd5ac77](https://github.com/m6-o4/way-finding-coaching/commit/bd5ac77dd3fb46bb863c9f867a8ba18edb4f1d9d))
+
 # [1.5.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.4.0...v1.5.0) (2026-08-19)
 
 ### Features

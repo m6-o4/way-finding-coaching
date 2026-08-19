@@ -2,8 +2,10 @@ import {
 	isAdminOrEditor,
 	isAdminOrEditorOrPublished,
 } from "@/payload/access/access-control";
-import { Archive } from "@/payload/blocks/archive/schema";
+import { CallToAction } from "@/payload/blocks/call-to-action/schema";
+import { ContentEditor } from "@/payload/blocks/content-editor/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
+import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
 import {
 	revalidateDelete,
 	revalidatePage,
@@ -65,7 +67,7 @@ const Pages: CollectionConfig<"pages"> = {
 							type: "blocks",
 							required: true,
 							admin: { initCollapsed: true },
-							blocks: [Archive, Hero],
+							blocks: [Hero, PostsArchive, ContentEditor, CallToAction],
 						},
 					],
 				},

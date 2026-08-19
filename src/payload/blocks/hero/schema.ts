@@ -24,10 +24,12 @@ const Hero: Block = {
 			label: "Hero Image",
 			relationTo: "media",
 		},
+		// primary-only
 		{
 			name: "heroOverline",
 			type: "text",
 			label: "Hero Overline",
+			admin: { condition: (_, siblingData) => siblingData.heroType === "primary" },
 		},
 		{
 			name: "heroHeadline",

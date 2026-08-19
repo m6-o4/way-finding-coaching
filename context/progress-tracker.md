@@ -21,6 +21,25 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-19] — Call-to-action block conformed to design system
+- **What was built**: reworked the `call-to-action` block's front-end to the
+  finalized design tokens — removed the scaffold's decorative `color-mix` glow
+  blobs, switched both CTAs from hand-rolled classes to the `Button` component's
+  built-in `secondary` and `outline` variants, added `font-heading` to the
+  headline, and normalized the description to plain `text-primary-foreground`.
+  Added a `why`-comment to the relationship null-guard.
+- **Files touched**: `src/payload/blocks/call-to-action/component.tsx`.
+- **Notes**: section stays `bg-primary` (Michael's choice), which flips to
+  light-peach in dark mode. The `outline` CTA therefore carries dark-scoped
+  overrides (`dark:bg-transparent dark:border-primary-foreground/40
+  dark:text-primary-foreground dark:hover:bg-primary-foreground/10`) because its
+  default dark styles (`dark:bg-input/30` + inherited `--foreground`) fall to
+  ~2.4:1 on the peach band — the override restores ~10:1. `secondary` reads fine
+  in both modes. Removed leftover scaffold copy ("No payment is required to
+  browse profiles"). The `calltoaction` prop is a `string | Callstoactions`
+  relationship, so the null-guard is correct, not a type-smell. Cross-ref
+  build-plan 1.2 (cta block).
+
 ### [2026-08-19] — Hero block reworked to full-bleed designs
 - **What was built**: reworked both `hero` block variants into full-bleed headers
   driven by the `backgroundVariant` field (`background` → `bg-background`, `muted`

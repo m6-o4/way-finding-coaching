@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.6.0...v1.7.0) (2026-08-20)
+
+
+### Bug Fixes
+
+* **badge:** conform pill shape to design system ([2155e6a](https://github.com/m6-o4/way-finding-coaching/commit/2155e6a07165b03bafadb6bf3a8762c691fb8a02))
+
+
+### Features
+
+* **posts:** add blog post detail page and badge component ([5577f89](https://github.com/m6-o4/way-finding-coaching/commit/5577f895d1c1f8bd382360282f1074b3acc945a2))
+* **posts:** enable ordered and unordered lists in rich text editor ([7be12bb](https://github.com/m6-o4/way-finding-coaching/commit/7be12bbe59fe3f7364da6717b6cc2e4786983836))
+
 # [1.6.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.5.0...v1.6.0) (2026-08-19)
 
 ### Bug Fixes

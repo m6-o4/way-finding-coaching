@@ -21,6 +21,26 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-20] — Badge component installed; post detail conformed to design tokens
+- **What was built**: installed the shadcn `Badge` primitive
+  (`pnpm dlx shadcn@latest add badge`) and corrected five theme violations on
+  the blog post detail page: the `h1` swapped nonexistent
+  `font-display text-text-default` for `font-heading text-foreground`, dropped
+  `font-bold` (700) for `font-semibold` (600 — the heading weight), and the
+  hero-image container lost its `shadow-md` (no shadows allowed), switched
+  `border-border` → `border-card-border`, and `rounded-2xl` → `rounded-lg`.
+- **Files touched**: `src/components/ui/badge.tsx` (new),
+  `src/app/(web)/posts/[slug]/page.tsx`.
+- **Notes**: `Badge` is consumed in the post page for category labels
+  (`variant="secondary"`). The stock shadcn `rounded-4xl` was conformed to
+  `rounded-full` per the ui-rules Badges rule (pill, bypassing the `--radius`
+  scale). Two further minor items on the post page
+  were flagged and deliberately left: a dead `text-sm` on the categories
+  wrapper (overridden by the badge's `text-xs`) and the mobile title `text-4xl`
+  (36px) sitting off the 28/48px type scale. `pnpm.ps1` is blocked by
+  PowerShell execution policy on this machine — use `pnpm.cmd`. Cross-ref
+  build-plan 2.1 (post detail).
+
 ### [2026-08-19] — Call-to-action block conformed to design system
 - **What was built**: reworked the `call-to-action` block's front-end to the
   finalized design tokens — removed the scaffold's decorative `color-mix` glow

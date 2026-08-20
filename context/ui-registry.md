@@ -59,3 +59,10 @@ registry never drifts from the actual codebase.
 - **Props**: the `CallToAction` block (a single `calltoaction` relationship typed `string | Callstoactions`; renders only when the relationship arrives as the populated object).
 - **Visual pattern**: `bg-primary` section (`py-24`, `overflow-hidden`, no glow/shadow); centered `text-primary-foreground` content; headline `font-heading text-4xl sm:text-5xl font-semibold`; description `text-primary-foreground text-lg sm:text-xl`; two pill CTAs via the `Button` component rendered as `Link`s (`nativeButton={false}`) — `ctaDiscovery` uses `secondary`, `ctaFreeGuide` uses `outline` with dark-scoped overrides (`dark:bg-transparent dark:border-primary-foreground/40 dark:text-primary-foreground dark:hover:bg-primary-foreground/10`) since `--primary` flips light-peach in dark mode and the outline variant's default dark styles fail contrast on it. Both carry `w-full sm:w-auto` for responsive full-width.
 - **Used in**: `pages` documents via the `callToAction` block, registered in `src/payload/blocks/render-blocks.tsx`.
+
+### `Badge`
+- **Location**: `src/components/ui/badge.tsx`
+- **Purpose**: a small status/label pill for short, non-interactive text — used for the blog post's category labels.
+- **Props**: `variant` (`default` | `secondary` | `destructive` | `outline` | `ghost` | `link`), plus Base UI `useRender` props (`render` for polymorphic rendering, e.g. wrapping the badge in a link).
+- **Visual pattern**: `inline-flex h-5 w-fit shrink-0 items-center gap-1 px-2 py-0.5 text-xs font-medium whitespace-nowrap`; filled variants use paired tokens (`default` → `bg-primary text-primary-foreground`, `secondary` → `bg-secondary text-secondary-foreground`, `destructive` → `bg-destructive/10 text-destructive`); `outline` → `border-border text-foreground`. Pill shape via `rounded-full` (bypassing the `--radius` scale, per the ui-rules Badges rule — the stock shadcn `rounded-4xl` was conformed to this). No shadows.
+- **Used in**: `src/app/(web)/posts/[slug]/page.tsx` (category labels, `variant="secondary"`).

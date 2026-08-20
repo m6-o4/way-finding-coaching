@@ -13,7 +13,7 @@ const FooterClient = ({ data }: FooterClientProps) => {
 	return (
 		<div className="bg-secondary">
 			<div className="container mx-auto px-6 py-8 text-center">
-				<Link href="/" className="block font-heading text-secondary-foreground text-2xl">
+				<Link href="/" className="font-heading text-secondary-foreground block text-2xl">
 					{organizationName}
 				</Link>
 				<p className="text-secondary-foreground">{organizationSlogan}</p>
@@ -21,7 +21,13 @@ const FooterClient = ({ data }: FooterClientProps) => {
 				{navItems && navItems.length > 0 && (
 					<div className="text-secondary-foreground mt-7 flex justify-center gap-6">
 						{navItems.map((item, i) => (
-							<Link key={i} href={item.link.url || "#top"}>
+							<Link
+								key={i}
+								href={item.link.url || "#top"}
+								{...(item.link.newTab
+									? { rel: "noopener noreferrer", target: "_blank" }
+									: {})}
+							>
 								{item.link.label}
 							</Link>
 						))}

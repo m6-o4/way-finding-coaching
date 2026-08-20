@@ -45,6 +45,7 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 						<Link
 							key={index}
 							href={link.url || "#"}
+							{...(link.newTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
 							className="text-muted-foreground hover:text-primary transition-colors"
 						>
 							{link.label || "#"}
@@ -55,7 +56,14 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 				{discovery?.link && (
 					<Button
 						render={
-							<Link href={discovery.link.url || "#"}>{discovery.link.label || "#"}</Link>
+							<Link
+								href={discovery.link.url || "#"}
+								{...(discovery.link.newTab
+									? { rel: "noopener noreferrer", target: "_blank" }
+									: {})}
+							>
+								{discovery.link.label || "#"}
+							</Link>
 						}
 						nativeButton={false}
 						className="hidden md:inline-flex"
@@ -75,13 +83,21 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 			{menuOpen && (
 				<div className="border-border bg-card mx-auto mt-2 flex max-w-(--container) flex-col gap-3 rounded-lg border p-5 text-sm md:hidden">
 					{navigationItems?.map(({ link }, index) => (
-						<Link key={index} href={link.url || "#"} onClick={() => setMenuOpen(false)}>
+						<Link
+							key={index}
+							href={link.url || "#"}
+							{...(link.newTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+							onClick={() => setMenuOpen(false)}
+						>
 							{link.label || "#"}
 						</Link>
 					))}
 					{discovery?.link && (
 						<Link
 							href={discovery.link.url || "#"}
+							{...(discovery.link.newTab
+								? { rel: "noopener noreferrer", target: "_blank" }
+								: {})}
 							onClick={() => setMenuOpen(false)}
 							className="text-primary"
 						>

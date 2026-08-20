@@ -204,7 +204,7 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation)[];
+  layout: (Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs)[];
   meta?: {
     title?: string | null;
     /**
@@ -459,6 +459,50 @@ export interface ProblemAgitation {
   id?: string | null;
   blockName?: string | null;
   blockType: 'problemAgitation';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Programs".
+ */
+export interface Programs {
+  headline: string;
+  headlineDescription?: string | null;
+  bookingLink: {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
+  programs?:
+    | {
+        programImage?: (string | null) | Media;
+        programTitle: string;
+        programDescription?: string | null;
+        programFeatures?:
+          | {
+              title: string;
+              id?: string | null;
+            }[]
+          | null;
+        programPrice?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'programs';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -749,6 +793,7 @@ export interface PagesSelect<T extends boolean = true> {
         contentEditor?: T | ContentEditorSelect<T>;
         callToAction?: T | CallToActionSelect<T>;
         problemAgitation?: T | ProblemAgitationSelect<T>;
+        programs?: T | ProgramsSelect<T>;
       };
   meta?:
     | T
@@ -848,6 +893,45 @@ export interface CallToActionSelect<T extends boolean = true> {
 export interface ProblemAgitationSelect<T extends boolean = true> {
   problem?: T;
   challenge?: T;
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  bookingLink?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  programs?:
+    | T
+    | {
+        programImage?: T;
+        programTitle?: T;
+        programDescription?: T;
+        programFeatures?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+            };
+        programPrice?: T;
+        id?: T;
+      };
   backgroundVariant?: T;
   id?: T;
   blockName?: T;

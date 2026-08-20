@@ -20,8 +20,8 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 	const [main, accent] = parts.length > 1 ? parts : [organizationName ?? "", null];
 
 	return (
-		<header className="absolute inset-x-0 top-0 z-20 px-4 pt-3 sm:px-8">
-			<nav className="border-border/70 bg-card/90 mx-auto flex max-w-6xl items-center justify-between rounded-full border px-5 py-3 backdrop-blur">
+		<div className="absolute inset-x-0 top-0 z-20 px-4 pt-3 sm:px-8">
+			<nav className="border-border/70 bg-card/90 mx-auto flex max-w-(--container) items-center justify-between rounded-full border px-5 py-3 backdrop-blur">
 				<Link href="/" className="flex cursor-pointer items-center">
 					{organizationLogo && typeof organizationLogo === "object" ? (
 						<Image
@@ -73,7 +73,7 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 			</nav>
 
 			{menuOpen && (
-				<div className="border-border bg-card mx-auto mt-2 flex max-w-6xl flex-col gap-3 rounded-lg border p-5 text-sm md:hidden">
+				<div className="border-border bg-card mx-auto mt-2 flex max-w-(--container) flex-col gap-3 rounded-lg border p-5 text-sm md:hidden">
 					{navigationItems?.map(({ link }, index) => (
 						<Link key={index} href={link.url || "#"} onClick={() => setMenuOpen(false)}>
 							{link.label || "#"}
@@ -90,7 +90,7 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 					)}
 				</div>
 			)}
-		</header>
+		</div>
 	);
 };
 

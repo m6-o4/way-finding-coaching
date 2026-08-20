@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { CallToAction } from "@/payload-types";
 
@@ -12,8 +13,8 @@ const CallToActionBlock = ({ calltoaction }: CallToAction) => {
 	const { ctaDiscovery, ctaFreeGuide, headline, headlineDescription } = calltoaction;
 
 	return (
-		<section className="bg-primary relative overflow-hidden py-24">
-			<div className="relative mx-auto px-4 text-center sm:px-6 lg:px-8">
+		<section className="bg-primary relative overflow-hidden py-16 lg:py-30">
+			<Container className="text-center">
 				<h2 className="text-primary-foreground font-heading mb-6 text-4xl font-semibold sm:text-5xl">
 					{headline}
 				</h2>
@@ -48,7 +49,7 @@ const CallToActionBlock = ({ calltoaction }: CallToAction) => {
 						/>
 					)}
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 };

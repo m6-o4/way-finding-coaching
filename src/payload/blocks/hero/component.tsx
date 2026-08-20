@@ -28,7 +28,7 @@ const HeroBlock = ({
 	if (heroType === "secondary") {
 		return (
 			<section
-				id="top"
+				id="hero"
 				className={cn(
 					"relative isolate flex min-h-130 items-center justify-center overflow-hidden px-6 pt-20 text-center",
 					backgroundClass,
@@ -60,7 +60,7 @@ const HeroBlock = ({
 	// large page header used on main page
 	return (
 		<section
-			id="top"
+			id="hero"
 			className={cn(
 				"relative isolate flex min-h-170 items-end pt-32 pb-20 lg:min-h-190 lg:pb-28",
 				backgroundClass,
@@ -77,7 +77,7 @@ const HeroBlock = ({
 				/>
 			)}
 			<div className="from-secondary/40 via-secondary/10 to-background absolute inset-0 -z-10 bg-linear-to-b" />
-			<div className="mx-auto w-full max-w-6xl px-7 sm:px-12">
+			<div className="mx-auto w-full max-w-(--container) px-4 sm:px-6 lg:px-8">
 				<div className="max-w-xl">
 					{heroOverline && (
 						<p className="text-primary mb-4 text-xs font-medium tracking-[0.22em] uppercase">

@@ -77,6 +77,7 @@
 	--chart-4: #005040;
 	--chart-5: #a67b6b;
 	--radius: 1rem;
+	--container: 1120px;
 	--sidebar: var(--card);
 	--sidebar-foreground: var(--foreground);
 	--sidebar-primary: var(--primary);

@@ -204,7 +204,7 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive | ContentEditor | CallToAction)[];
+  layout: (Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation)[];
   meta?: {
     title?: string | null;
     /**
@@ -447,6 +447,18 @@ export interface Callstoaction {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProblemAgitation".
+ */
+export interface ProblemAgitation {
+  problem: string;
+  challenge: string;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'problemAgitation';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -736,6 +748,7 @@ export interface PagesSelect<T extends boolean = true> {
         postsArchive?: T | PostsArchiveSelect<T>;
         contentEditor?: T | ContentEditorSelect<T>;
         callToAction?: T | CallToActionSelect<T>;
+        problemAgitation?: T | ProblemAgitationSelect<T>;
       };
   meta?:
     | T
@@ -825,6 +838,17 @@ export interface ContentEditorSelect<T extends boolean = true> {
  */
 export interface CallToActionSelect<T extends boolean = true> {
   calltoaction?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProblemAgitation_select".
+ */
+export interface ProblemAgitationSelect<T extends boolean = true> {
+  problem?: T;
+  challenge?: T;
+  backgroundVariant?: T;
   id?: T;
   blockName?: T;
 }

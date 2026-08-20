@@ -4,6 +4,7 @@ import type { Page } from "@/payload-types";
 import { CallToActionBlock } from "@/payload/blocks/call-to-action/component";
 import { ContentEditorBlock } from "@/payload/blocks/content-editor/component";
 import { PostsArchiveBlock } from "@/payload/blocks/posts-archive/component";
+import { ProblemAgitationBlock } from "@/payload/blocks/problem-agitation/component";
 import { HeroBlock } from "@/payload/blocks/hero/component";
 
 // defines which payload block types map to which react components.
@@ -13,6 +14,7 @@ const blockComponents = {
 	contentEditor: ContentEditorBlock,
 	hero: HeroBlock,
 	postsArchive: PostsArchiveBlock,
+	problemAgitation: ProblemAgitationBlock,
 } as const;
 
 type BlockKey = keyof typeof blockComponents;

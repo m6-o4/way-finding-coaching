@@ -6,6 +6,7 @@ import { CallToAction } from "@/payload/blocks/call-to-action/schema";
 import { ContentEditor } from "@/payload/blocks/content-editor/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
 import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
+import { ProblemAgitation } from "@/payload/blocks/problem-agitation/schema";
 import {
 	revalidateDelete,
 	revalidatePage,
@@ -67,7 +68,7 @@ const Pages: CollectionConfig<"pages"> = {
 							type: "blocks",
 							required: true,
 							admin: { initCollapsed: true },
-							blocks: [Hero, PostsArchive, ContentEditor, CallToAction],
+							blocks: [Hero, PostsArchive, ContentEditor, CallToAction, ProblemAgitation],
 						},
 					],
 				},

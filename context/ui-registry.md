@@ -57,7 +57,7 @@ registry never drifts from the actual codebase.
 - **Location**: `src/payload/blocks/call-to-action/component.tsx`
 - **Purpose**: the site's closing call-to-action section — a full-bleed `bg-primary` band with a headline, supporting description, and two CTA buttons.
 - **Props**: the `CallToAction` block (a single `calltoaction` relationship typed `string | Callstoactions`; renders only when the relationship arrives as the populated object).
-- **Visual pattern**: `bg-primary` section (`py-24`, `overflow-hidden`, no glow/shadow); centered `text-primary-foreground` content; headline `font-heading text-4xl sm:text-5xl font-semibold`; description `text-primary-foreground text-lg sm:text-xl`; two pill CTAs via the `Button` component rendered as `Link`s (`nativeButton={false}`) — `ctaDiscovery` uses `secondary`, `ctaFreeGuide` uses `outline` with dark-scoped overrides (`dark:bg-transparent dark:border-primary-foreground/40 dark:text-primary-foreground dark:hover:bg-primary-foreground/10`) since `--primary` flips light-peach in dark mode and the outline variant's default dark styles fail contrast on it. Both carry `w-full sm:w-auto` for responsive full-width.
+- **Visual pattern**: `bg-primary` section (`py-16 lg:py-30`, `overflow-hidden`, no glow/shadow); content centered in a `Container` (`text-center`); headline `font-heading text-4xl sm:text-5xl font-semibold`; description `text-primary-foreground text-lg sm:text-xl`; two pill CTAs via the `Button` component rendered as `Link`s (`nativeButton={false}`) — `ctaDiscovery` uses `secondary`, `ctaFreeGuide` uses `outline` with dark-scoped overrides (`dark:bg-transparent dark:border-primary-foreground/40 dark:text-primary-foreground dark:hover:bg-primary-foreground/10`) since `--primary` flips light-peach in dark mode and the outline variant's default dark styles fail contrast on it. Both carry `w-full sm:w-auto` for responsive full-width.
 - **Used in**: `pages` documents via the `callToAction` block, registered in `src/payload/blocks/render-blocks.tsx`.
 
 ### `Badge`
@@ -66,3 +66,17 @@ registry never drifts from the actual codebase.
 - **Props**: `variant` (`default` | `secondary` | `destructive` | `outline` | `ghost` | `link`), plus Base UI `useRender` props (`render` for polymorphic rendering, e.g. wrapping the badge in a link).
 - **Visual pattern**: `inline-flex h-5 w-fit shrink-0 items-center gap-1 px-2 py-0.5 text-xs font-medium whitespace-nowrap`; filled variants use paired tokens (`default` → `bg-primary text-primary-foreground`, `secondary` → `bg-secondary text-secondary-foreground`, `destructive` → `bg-destructive/10 text-destructive`); `outline` → `border-border text-foreground`. Pill shape via `rounded-full` (bypassing the `--radius` scale, per the ui-rules Badges rule — the stock shadcn `rounded-4xl` was conformed to this). No shadows.
 - **Used in**: `src/app/(web)/posts/[slug]/page.tsx` (category labels, `variant="secondary"`).
+
+### `Container`
+- **Location**: `src/components/container.tsx`
+- **Purpose**: the canonical page-width wrapper — centers content and constrains it to the design system's 1120px max-width.
+- **Props**: `ComponentProps<"div">` (spreads any `div` props; `className` is merged via `cn`).
+- **Visual pattern**: `mx-auto w-full max-w-(--container) px-4 sm:px-6 lg:px-8` — `--container: 1120px` (defined in `globals.css` `:root`), responsive gutter 16/24/32px. No vertical padding — section/block vertical rhythm is the caller's responsibility.
+- **Used in**: `src/app/(web)/posts/[slug]/page.tsx`, `src/app/(web)/not-found.tsx`, `src/payload/blocks/posts-archive/component.tsx`, `src/payload/blocks/content-editor/compoent.tsx`, `src/payload/blocks/call-to-action/component.tsx`.
+
+### `PostsArchiveBlock`
+- **Location**: `src/payload/blocks/posts-archive/component.tsx`
+- **Purpose**: the "Latest Insights" archive block — a headline + "View All Articles" CTA over a responsive grid of post cards.
+- **Props**: the `PostsArchive` block (`backgroundVariant` `background` | `muted`, `headline`, `headlineDescription`, `populateBy` `collection` | `selection`, `categories`, `limit`, `selectedDocs`).
+- **Visual pattern**: `bg-background`/`bg-muted` section (`py-16 lg:py-30`) wrapping a `Container`; headline `font-heading text-3xl md:text-4xl font-semibold text-foreground` with "View All Articles" as a `Button` `secondary` variant rendered as a `Link` (`nativeButton={false}`, hidden below `md`); cards in a `grid gap-8 md:grid-cols-3`, each a `Link`-wrapped `<article>` — `border-card-border bg-card rounded-lg border` (no shadow), a `bg-muted aspect-16/10` image area with a `Badge variant="secondary"` category label, and a body with `text-muted-foreground text-xs` date, `text-foreground text-xl font-semibold` title (`group-hover:text-primary`), and a `text-sm` line-clamped description. No shadows.
+- **Used in**: `pages` documents via the `postsArchive` block, registered in `src/payload/blocks/render-blocks.tsx`.

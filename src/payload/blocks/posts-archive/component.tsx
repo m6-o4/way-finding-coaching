@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getPayload } from "payload";
 
 import { Container } from "@/components/container";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import config from "@/payload-config";
@@ -64,9 +65,9 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 	}
 
 	return (
-		<div className={cn("px-4 py-20", backgroundClass)}>
-			<Container className="px-4 sm:px-6 lg:px-8">
-				<div className="px-3" id={`block-${id}`}>
+		<div className={cn("py-16 lg:py-30", backgroundClass)}>
+			<Container>
+				<div id={`block-${id}`}>
 					{/* render headline and description if present */}
 					{(headline || headlineDescription) && (
 						<div className="mb-12 flex flex-col items-end justify-between md:flex-row">
@@ -115,7 +116,7 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 
 							return (
 								<Link key={post.id} href={`/posts/${post.slug}`}>
-									<article className="group border-border bg-card hover:border-primary/20 flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-lg">
+									<article className="group border-card-border bg-card flex h-full cursor-pointer flex-col overflow-hidden rounded-lg border transition-colors">
 										<div className="bg-muted relative aspect-16/10 overflow-hidden">
 											{imageSrc ? (
 												<>
@@ -138,16 +139,14 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 												</>
 											)}
 											<div className="absolute top-4 left-4">
-												<span className="border-border bg-card text-muted-foreground inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium">
-													{category}
-												</span>
+												<Badge variant="secondary">{category}</Badge>
 											</div>
 										</div>
 										<div className="flex flex-1 flex-col p-6">
-											<div className="text-muted-foreground mb-3 flex items-center space-x-2 text-xs">
+											<div className="text-muted-foreground mb-3 flex items-center gap-2 text-xs">
 												<span>{formatDate(post.publishedAt)}</span>
 											</div>
-											<h3 className="text-heading group-hover:text-primary mb-3 text-xl font-semibold transition-colors">
+											<h3 className="text-foreground group-hover:text-primary mb-3 text-xl font-semibold transition-colors">
 												{post.title}
 											</h3>
 											<p className="text-muted-foreground mb-4 line-clamp-4 text-sm leading-relaxed">

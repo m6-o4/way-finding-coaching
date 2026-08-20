@@ -7,6 +7,7 @@ import {
 import { CallToAction } from "@/payload/blocks/call-to-action/schema";
 import { ContentEditor } from "@/payload/blocks/content-editor/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
+import { MeetMichelle } from "@/payload/blocks/meet-michelle/schema";
 import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
 import { ProblemAgitation } from "@/payload/blocks/problem-agitation/schema";
 import { Programs } from "@/payload/blocks/programs/schema";
@@ -78,6 +79,7 @@ const Pages: CollectionConfig<"pages"> = {
 								CallToAction,
 								ProblemAgitation,
 								Programs,
+								MeetMichelle,
 							],
 						},
 					],

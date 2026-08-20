@@ -21,6 +21,31 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-20] — meet-michelle block: token conformance + schema review
+- **What was built**: reviewed and conformed the `meet-michelle` Payload block.
+  Schema (`src/payload/blocks/meet-michelle/schema.ts`): `title` (required),
+  `bio` richText (required), `photo` upload → media (required),
+  `backgroundVariant` select. Added `OrderedListFeature`,
+  `UnorderedListFeature`, and `AlignFeature` to the `bio` Lexical editor so it
+  matches `content-editor`. Component
+  (`src/payload/blocks/meet-michelle/component.tsx`): conformed to the design
+  tokens — the manual `px-4 py-20` + `mx-auto max-w-6xl` wrapper became the
+  shared `Container` + `py-16 lg:py-30`, `text-[#1A233D]` → `text-foreground`,
+  `font-bold` → `font-semibold`, removed `shadow-xl` (no shadows), and added a
+  `bg-muted` backdrop behind the photo. Removed the fallback image/alt
+  (`/way-finding-og.webp` / "Michelle Mashonganyika") since `photo` is required —
+  the `Image` now renders only when `photo` is a populated object (hero pattern).
+- **Files touched**: `src/payload/blocks/meet-michelle/schema.ts`,
+  `src/payload/blocks/meet-michelle/component.tsx`.
+- **Notes**: `pnpm.cmd exec eslint` passes on both files. ⚠️ The block is NOT yet
+  registered — `MeetMichelle` is missing from the `layout` blocks array in
+  `src/payload/collections/pages/schema.ts` and from `blockComponents` in
+  `src/payload/blocks/render-blocks.tsx`, so it will not appear in the admin
+  builder or render on the frontend. `payload-types.ts` already lists
+  `MeetMichelle` in the `layout` union (line 207) — stale relative to
+  `pages/schema.ts`; regenerate types after registering. Cross-ref build-plan
+  1.2 (meet-michelle block).
+
 ### [2026-08-20] — content-editor `text-heading` fix
 - **What was built**: swapped the nonexistent `text-heading` class for
   `text-foreground` on the `content-editor` block's `h2`, matching the

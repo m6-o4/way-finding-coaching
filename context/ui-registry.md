@@ -94,3 +94,10 @@ registry never drifts from the actual codebase.
 - **Props**: the `ProblemAgitation` block (`backgroundVariant` `background` | `muted`, `problem` headline, `challenge` body).
 - **Visual pattern**: `bg-background`/`bg-muted` section (`py-16 lg:py-30`) wrapping a `Container` with `max-w-4xl text-center`; headline `text-foreground mb-8 text-3xl font-semibold md:text-4xl` (`h2`), body `text-muted-foreground text-lg leading-relaxed text-pretty md:text-xl`. No shadows, no hardcoded hex.
 - **Used in**: `pages` documents via the `problemAgitation` block, registered in `src/payload/blocks/render-blocks.tsx`.
+
+### `MeetMichelleBlock`
+- **Location**: `src/payload/blocks/meet-michelle/component.tsx`
+- **Purpose**: the "Meet Michelle" section — a centered serif headline over a two-column layout: Michelle's portrait photo on the left, her rich-text biography on the right.
+- **Props**: the `MeetMichelle` block (`backgroundVariant` `background` | `muted`, `title`, `bio` richText, `photo` upload → media — required).
+- **Visual pattern**: `bg-background`/`bg-muted` section (`py-16 lg:py-30`) wrapping a `Container`; headline `text-foreground mb-12 text-center text-3xl font-semibold md:text-4xl` (`h2`); `grid items-start gap-12 lg:grid-cols-3` with the photo in `lg:col-span-1` (a `bg-muted relative aspect-4/5 w-full overflow-hidden rounded-lg` wrapper holding `next/image` `fill` `object-cover`, rendered only when `photo` is a populated object) and the bio in `lg:col-span-2` via `RichText` (`enableGutter={false}`). No shadows, no hardcoded hex.
+- **Used in**: `pages` documents via the `meetMichelle` block — ⚠️ not yet registered in `src/payload/blocks/render-blocks.tsx`.

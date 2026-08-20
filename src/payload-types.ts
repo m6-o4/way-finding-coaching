@@ -204,7 +204,7 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs)[];
+  layout: (Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs | MeetMichelle)[];
   meta?: {
     title?: string | null;
     /**
@@ -506,6 +506,33 @@ export interface Programs {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MeetMichelle".
+ */
+export interface MeetMichelle {
+  title: string;
+  photo: string | Media;
+  bio: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'meetMichelle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -794,6 +821,7 @@ export interface PagesSelect<T extends boolean = true> {
         callToAction?: T | CallToActionSelect<T>;
         problemAgitation?: T | ProblemAgitationSelect<T>;
         programs?: T | ProgramsSelect<T>;
+        meetMichelle?: T | MeetMichelleSelect<T>;
       };
   meta?:
     | T
@@ -932,6 +960,18 @@ export interface ProgramsSelect<T extends boolean = true> {
         programPrice?: T;
         id?: T;
       };
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MeetMichelle_select".
+ */
+export interface MeetMichelleSelect<T extends boolean = true> {
+  title?: T;
+  photo?: T;
+  bio?: T;
   backgroundVariant?: T;
   id?: T;
   blockName?: T;

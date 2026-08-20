@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getPayload } from "payload";
 
 import { Container } from "@/components/container";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import config from "@/payload-config";
 import type { Post, PostsArchive } from "@/payload-types";
@@ -71,7 +72,7 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 						<div className="mb-12 flex flex-col items-end justify-between md:flex-row">
 							<div>
 								{headline && (
-									<h2 className="text-heading mb-4 text-3xl font-semibold md:text-4xl">
+									<h2 className="text-foreground mb-4 text-3xl font-semibold md:text-4xl">
 										{headline}
 									</h2>
 								)}
@@ -79,12 +80,17 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 									<p className="text-muted-foreground">{headlineDescription}</p>
 								)}
 							</div>
-							<Link
-								href="/posts"
-								className="border-primary/20 text-primary hover:bg-primary/10 mt-6 hidden items-center justify-center rounded-lg border px-6 py-3 font-medium transition-all duration-200 md:mt-0 md:inline-flex"
-							>
-								View All Articles <ArrowRight className="ml-2 h-4 w-4" />
-							</Link>
+							<Button
+								render={
+									<Link href="/posts">
+										View All Articles
+										<ArrowRight className="ml-2 size-4 transition-transform group-hover/button:translate-x-1" />
+									</Link>
+								}
+								nativeButton={false}
+								variant="secondary"
+								className="mt-6 hidden md:mt-0 md:inline-flex"
+							/>
 						</div>
 					)}
 

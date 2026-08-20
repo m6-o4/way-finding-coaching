@@ -2,7 +2,7 @@ import { ComponentType, Fragment } from "react";
 
 import type { Page } from "@/payload-types";
 import { CallToActionBlock } from "@/payload/blocks/call-to-action/component";
-import { ContentEditorBlock } from "@/payload/blocks/content-editor/compoent";
+import { ContentEditorBlock } from "@/payload/blocks/content-editor/component";
 import { PostsArchiveBlock } from "@/payload/blocks/posts-archive/component";
 import { HeroBlock } from "@/payload/blocks/hero/component";
 

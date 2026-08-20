@@ -23,7 +23,7 @@ const ContentEditorBlock = ({
 					<div className="mb-12 flex flex-col items-end justify-between md:flex-row">
 						<div>
 							{headline && (
-								<h2 className="text-heading mb-4 text-3xl font-semibold md:text-4xl">
+								<h2 className="text-foreground mb-4 text-3xl font-semibold md:text-4xl">
 									{headline}
 								</h2>
 							)}

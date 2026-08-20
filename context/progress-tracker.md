@@ -21,6 +21,24 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-20] — Posts-archive block conformance (in progress)
+- **What was built**: conformed the `posts-archive` block's headline + CTA to the
+  design tokens — the `h2` swapped the nonexistent `text-heading` class for
+  `text-foreground`, and the hand-rolled "View All Articles" `<Link>` was
+  replaced with the `Button` component (`variant="secondary"`,
+  `render={<Link href="/posts"/>}` + `nativeButton={false}`), arrow icon at
+  `size-4` with a `group-hover/button` transition.
+- **Files touched**: `src/payload/blocks/posts-archive/component.tsx`.
+- **Notes**: block-by-block review of the archive block, in progress — Blocks
+  1–3 done. Remaining findings (presented, awaiting approval): the article card
+  uses `border-border` (→ `border-card-border`), `rounded-2xl` (→ `rounded-lg`),
+  `hover:shadow-lg` (remove — no shadows), and `hover:border-primary/20`
+  (remove); the category label is a hand-rolled `<span>` that should use the
+  `Badge` component; the card body uses `space-x-2` (→ `gap-2`) and a second
+  `text-heading` on the `h3` (→ `text-foreground`). `PostsArchiveBlock` registry
+  entry deferred until the review completes. Cross-ref build-plan 1.2 (archive
+  block).
+
 ### [2026-08-20] — Badge component installed; post detail conformed to design tokens
 - **What was built**: installed the shadcn `Badge` primitive
   (`pnpm dlx shadcn@latest add badge`) and corrected five theme violations on

@@ -1,57 +1,64 @@
-# Memory — Badge install + post-detail theme conformance
+# Memory — Theme conformance sweep (badge, post detail, posts-archive)
 
-Last updated: 2026-08-20 08:28 +03:00
+Last updated: 2026-08-20 09:28 +03:00
 
 ## What was built
 
-- Installed the shadcn `badge` component at `src/components/ui/badge.tsx` via
-  `pnpm dlx shadcn@latest add badge`. Stock shadcn variants (`default`,
-  `secondary`, `destructive`, `outline`, `ghost`, `link`) already map to the
-  project's semantic tokens (`bg-primary text-primary-foreground`,
-  `bg-secondary text-secondary-foreground`, `rounded-4xl`), so no design-system
-  customization was needed. Base UI-backed, polymorphic via `render`.
-- Reviewed `src/app/(web)/posts/[slug]/page.tsx` against `ui-tokens.md` /
-  `ui-rules.md` and applied 5 corrections (user-approved):
-  - `h1` (line ~98): `font-display text-text-default` → `font-heading text-foreground`
-  - `h1`: `font-bold` (700) → `font-semibold` (600, per heading weight rule)
-  - image container (line ~121): removed `shadow-md` (project has no shadows)
-  - image container: `border-border` → `border-card-border`
-  - image container: `rounded-2xl` → `rounded-lg`
+- Installed shadcn `badge` at `src/components/ui/badge.tsx`, then conformed its
+  stock `rounded-4xl` to `rounded-full` (ui-rules Badges: pill, bypassing the
+  `--radius` scale). Registered in `context/ui-registry.md` and logged in
+  `context/progress-tracker.md`.
+- Conformed `src/app/(web)/posts/[slug]/page.tsx` to the design tokens:
+  `font-display text-text-default` → `font-heading text-foreground`,
+  `font-bold` → `font-semibold`, removed `shadow-md`,
+  `border-border` → `border-card-border`, `rounded-2xl` → `rounded-lg`.
+- Started conforming `src/payload/blocks/posts-archive/component.tsx` (the
+  "Latest Insights" archive block), block-by-block. Applied Block 3 (headline +
+  "View All Articles" CTA): `text-heading` → `text-foreground` on the `h2`;
+  replaced the hand-rolled `<Link>` button with the `Button` component
+  (`variant="secondary"`, `render={<Link href="/posts"/>}` + `nativeButton={false}`),
+  icon at `size-4` with `group-hover/button` transition; added the `Button` import.
 
 ## Decisions made
 
-- `Badge` needs no local customization — stock variants already conform to the
-  design tokens.
+- "View All Articles" CTA is a `secondary` Button (matches the hero's guide CTA),
+  not outline.
+- Hand-rolled buttons/badges in existing blocks are replaced with the installed
+  `Button`/`Badge` primitives rather than restyled in place.
 
 ## Problems solved
 
-- `pnpm.ps1` is blocked by PowerShell execution policy on this machine
-  ("running scripts is disabled"). Use the `.cmd` shim instead:
-  `pnpm.cmd dlx shadcn@latest add <component>` (and `pnpm.cmd` generally).
-- `font-display` and `text-text-default` are nonexistent classes in this
-  project — the tokens are `font-heading`/`font-sans` and `text-foreground`.
+- `pnpm.ps1` is blocked by PowerShell execution policy on this machine — use the
+  `.cmd` shim, e.g. `pnpm.cmd dlx shadcn@latest add <component>`.
+- `font-display`, `text-text-default`, and `text-heading` are nonexistent
+  classes; the real tokens are `font-heading`/`font-sans` and `text-foreground`.
+- Recurring theme violations across files: `shadow-*` (no shadows allowed),
+  `border-border` on cards (use `border-card-border`), `rounded-2xl` on cards
+  (use `rounded-lg`), and hand-rolled buttons/badges (use `Button`/`Badge`).
 
 ## Current state
 
-- `badge` installed and importable as `@/components/ui/badge`; already consumed
-  in the post-detail page for category labels (`<Badge variant="secondary">`).
-- Post-detail page now conforms to the design tokens.
-- **Not yet done:** Badge is not registered in `context/ui-registry.md`, and
-  this session's work is not logged in `context/progress-tracker.md`. Both were
-  offered to the user but not confirmed.
-- Two "your call" minor items left untouched in the post page: a dead `text-sm`
-  on the categories wrapper (line ~84, overridden by Badge's `text-xs`), and
-  `text-4xl` (36px) mobile title size sitting off the type scale.
+- Badge, post-detail page, and posts-archive headline/CTA all conform and are
+  applied.
+- **In progress:** posts-archive block review. Blocks 1–3 done. Block 4 findings
+  presented, NOT yet approved/applied — the article card should drop
+  `hover:shadow-lg`, drop `hover:border-primary/20`, and switch `border-border` →
+  `border-card-border` and `rounded-2xl` → `rounded-lg`. Blocks 5–6 not yet
+  presented (category badge is a hand-rolled `<span>` → `Badge`; card body has
+  `space-x-2` → `gap-2` and a second `text-heading` on the `h3` →
+  `text-foreground`).
 
 ## Next session starts with
 
-- Register `Badge` in `context/ui-registry.md` (Component Entry Format) and add
-  a `progress-tracker.md` entry for this session's badge install + post-detail
-  conformance work — if the user wants it.
-- Run `pnpm lint` to confirm no regressions from the post-detail class changes.
+- Resume the posts-archive review at Block 4 (article card): await approval on
+  the four card corrections, apply them, then present Blocks 5 (image area +
+  category badge) and 6 (card body).
+- After the block fully conforms, register `PostsArchiveBlock` in
+  `context/ui-registry.md` and add a completion note to `context/progress-tracker.md`.
 
 ## Open questions
 
-- Whether to register the badge install in the registry/progress-tracker.
-- Whether to address the two leftover minor items (dead `text-sm`, off-scale
-  `text-4xl`) on the post-detail page.
+- Block 4 hover treatment: remove `hover:border-primary/20` entirely
+  (recommended) vs keep a subtle non-color affordance.
+- Two "your call" items on the post-detail page, deliberately left: dead
+  `text-sm` on the categories wrapper; mobile title `text-4xl` (36px) off-scale.

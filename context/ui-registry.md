@@ -95,6 +95,13 @@ registry never drifts from the actual codebase.
 - **Visual pattern**: `bg-background`/`bg-muted` section (`py-16 lg:py-30`) wrapping a `Container`; centered header (`mb-12 text-center`) with `headline` (`h2`, `text-foreground mb-4 text-3xl font-semibold md:text-4xl`) + optional `headlineDescription` (`text-muted-foreground`); cards in a `grid gap-8 md:grid-cols-3`, each a shadcn `Card` conformed to the theme — `gap-0 rounded-lg border border-card-border p-0 ring-0` (overrides the stock `rounded-xl`/`ring-foreground/10`/`gap-(--card-spacing)`/`py-(--card-spacing)`; no shadow). Body is `CardHeader` `block p-6 pb-4` (title via `CardTitle` `text-foreground text-xl font-semibold`, showing `program.programTitle`) + `CardContent` `p-6 pt-0` holding a `Check`-icon list (`ul` `flex flex-col gap-2`, `Check` `text-primary size-4 shrink-0` + `text-foreground text-sm`), rendered only when the program's `benefits` is non-empty. No shadows, no hardcoded hex.
 - **Used in**: `pages` documents via the `programBenefits` block, registered in `src/payload/blocks/render-blocks.tsx`.
 
+### `FaqBlock`
+- **Location**: `src/payload/blocks/faq/component.tsx`
+- **Purpose**: the FAQ section — a headline + description over a single-column accordion of question/answer items, each a card.
+- **Props**: the `Faq` block (`backgroundVariant` `background` | `muted`, `headline` (required), `headlineDescription`, `faqs` array of `question` / `answer`).
+- **Visual pattern**: `bg-background`/`bg-muted` section (`py-16 lg:py-30`) wrapping a `Container`; centered header (`mb-12 text-center`) with `headline` (`h2`, `text-foreground mb-4 text-3xl font-semibold md:text-4xl`) + optional `headlineDescription` (`text-muted-foreground`); the shadcn `Accordion` (Base UI, single-open) is constrained to `mx-auto max-w-3xl gap-4`, each `AccordionItem` a card — `border-card-border rounded-lg border bg-card` (no shadow) with a `value` of `faq.id ?? `faq-${index}``. `AccordionTrigger` `text-foreground px-6 py-4 text-base font-semibold` (the stock chevron icons stay `text-muted-foreground`), and `AccordionContent` `px-6 pb-5 text-muted-foreground leading-relaxed` (inherits the Panel's `text-sm`). Rendered only when `faqs` is non-empty. No shadows, no hardcoded hex.
+- **Used in**: `pages` documents via the `faq` block, registered in `src/payload/blocks/render-blocks.tsx`.
+
 ### `ProblemAgitationBlock`
 - **Location**: `src/payload/blocks/problem-agitation/component.tsx`
 - **Purpose**: a single-headline + supporting-paragraph section (the "problem" / "challenge" beat), centered in a narrow text measure.

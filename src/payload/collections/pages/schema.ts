@@ -7,6 +7,7 @@ import {
 import { ProgramBenefits } from "@/payload/blocks/program-benefits/schema";
 import { CallToAction } from "@/payload/blocks/call-to-action/schema";
 import { ContentEditor } from "@/payload/blocks/content-editor/schema";
+import { Faq } from "@/payload/blocks/faq/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
 import { MeetMichelle } from "@/payload/blocks/meet-michelle/schema";
 import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
@@ -84,6 +85,7 @@ const Pages: CollectionConfig<"pages"> = {
 								ProgramBenefits,
 								MeetMichelle,
 								SocialProof,
+								Faq,
 							],
 						},
 					],

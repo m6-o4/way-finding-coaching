@@ -214,6 +214,7 @@ export interface Page {
     | ProgramBenefits
     | MeetMichelle
     | SocialProof
+    | Faq
   )[];
   meta?: {
     title?: string | null;
@@ -587,6 +588,25 @@ export interface SocialProof {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Faq".
+ */
+export interface Faq {
+  headline: string;
+  headlineDescription?: string | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -878,6 +898,7 @@ export interface PagesSelect<T extends boolean = true> {
         programBenefits?: T | ProgramBenefitsSelect<T>;
         meetMichelle?: T | MeetMichelleSelect<T>;
         socialProof?: T | SocialProofSelect<T>;
+        faq?: T | FaqSelect<T>;
       };
   meta?:
     | T
@@ -1070,6 +1091,24 @@ export interface SocialProofSelect<T extends boolean = true> {
         photo?: T;
         jobTitle?: T;
         testimony?: T;
+        id?: T;
+      };
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
         id?: T;
       };
   backgroundVariant?: T;

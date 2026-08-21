@@ -4,6 +4,7 @@ import type { Page } from "@/payload-types";
 import { ProgramBenefitsBlock } from "@/payload/blocks/program-benefits/component";
 import { CallToActionBlock } from "@/payload/blocks/call-to-action/component";
 import { ContentEditorBlock } from "@/payload/blocks/content-editor/component";
+import { FaqBlock } from "@/payload/blocks/faq/component";
 import { HeroBlock } from "@/payload/blocks/hero/component";
 import { MeetMichelleBlock } from "@/payload/blocks/meet-michelle/component";
 import { PostsArchiveBlock } from "@/payload/blocks/posts-archive/component";
@@ -17,6 +18,7 @@ const blockComponents = {
 	programBenefits: ProgramBenefitsBlock,
 	callToAction: CallToActionBlock,
 	contentEditor: ContentEditorBlock,
+	faq: FaqBlock,
 	hero: HeroBlock,
 	meetMichelle: MeetMichelleBlock,
 	postsArchive: PostsArchiveBlock,

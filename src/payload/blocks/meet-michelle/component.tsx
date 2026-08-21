@@ -32,7 +32,7 @@ const MeetMichelleBlock = ({
 				</div>
 				<div className="grid items-start gap-12 lg:grid-cols-3">
 					<div className="lg:col-span-1">
-						<div className="bg-muted relative aspect-4/5 w-full overflow-hidden rounded-lg">
+						<div className="bg-muted relative aspect-4/5 w-full overflow-hidden rounded-lg border border-card-border">
 							{typeof photo === "object" && photo !== null && (
 								<Image
 									src={photo.url ?? ""}

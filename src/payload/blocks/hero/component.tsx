@@ -92,7 +92,12 @@ const HeroBlock = ({
 						{ctaDiscovery?.link && (
 							<Button
 								render={
-									<Link href={ctaDiscovery.link.url || "#"}>
+									<Link
+										href={ctaDiscovery.link.url || "#"}
+										{...(ctaDiscovery.link.newTab
+											? { rel: "noopener noreferrer", target: "_blank" }
+											: {})}
+									>
 										{ctaDiscovery.link.label || ""}
 										<ArrowRight />
 									</Link>
@@ -104,7 +109,12 @@ const HeroBlock = ({
 							<Button
 								variant="secondary"
 								render={
-									<Link href={ctaFreeGuide.link.url || "#"}>
+									<Link
+										href={ctaFreeGuide.link.url || "#"}
+										{...(ctaFreeGuide.link.newTab
+											? { rel: "noopener noreferrer", target: "_blank" }
+											: {})}
+									>
 										{ctaFreeGuide.link.label || ""}
 									</Link>
 								}

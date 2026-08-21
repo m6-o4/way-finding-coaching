@@ -1,3 +1,5 @@
+import type { CollectionConfig } from "payload";
+
 import {
 	isAdminOrEditor,
 	isAdminOrEditorOrPublished,
@@ -5,7 +7,11 @@ import {
 import { CallToAction } from "@/payload/blocks/call-to-action/schema";
 import { ContentEditor } from "@/payload/blocks/content-editor/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
+import { MeetMichelle } from "@/payload/blocks/meet-michelle/schema";
 import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
+import { ProblemAgitation } from "@/payload/blocks/problem-agitation/schema";
+import { Programs } from "@/payload/blocks/programs/schema";
+import { SocialProof } from "@/payload/blocks/social-proof/schema";
 import {
 	revalidateDelete,
 	revalidatePage,
@@ -13,6 +19,7 @@ import {
 import { slugField } from "@/payload/fields/slug";
 import { populatePublishedAt } from "@/payload/hooks/populate-published-at";
 import { generatePreviewPath } from "@/payload/utilities/generate-preview-path";
+
 import {
 	MetaDescriptionField,
 	MetaImageField,
@@ -20,7 +27,6 @@ import {
 	OverviewField,
 	PreviewField,
 } from "@payloadcms/plugin-seo/fields";
-import type { CollectionConfig } from "payload";
 
 const Pages: CollectionConfig<"pages"> = {
 	slug: "pages",
@@ -67,7 +73,16 @@ const Pages: CollectionConfig<"pages"> = {
 							type: "blocks",
 							required: true,
 							admin: { initCollapsed: true },
-							blocks: [Hero, PostsArchive, ContentEditor, CallToAction],
+							blocks: [
+								Hero,
+								PostsArchive,
+								ContentEditor,
+								CallToAction,
+								ProblemAgitation,
+								Programs,
+								MeetMichelle,
+								SocialProof,
+							],
 						},
 					],
 				},

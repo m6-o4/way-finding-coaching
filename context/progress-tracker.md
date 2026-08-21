@@ -21,6 +21,167 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-21] — meet-michelle block: title → headline + headlineDescription
+- **What was built**: conformed the `meet-michelle` block to Michael's schema
+  change — `title` (text) was replaced by `headline` (required) + optional
+  `headlineDescription` (textarea). Updated the component to render `headline`
+  unconditionally, `headlineDescription` conditionally, and dropped the
+  now-redundant `bio &&` guard (`bio` is required). `photo` stays required
+  (`string | Media`), so the `typeof photo === "object"` populated-object guard
+  is kept for the `Image`.
+- **Files touched**: `src/payload/blocks/meet-michelle/component.tsx`.
+- **Notes**: `tsc --noEmit` + `eslint` pass (0 errors). `meetMichelle` is
+  registered in both `pages/schema.ts` and `render-blocks.tsx`. Cross-ref
+  build-plan 1.2.
+
+### [2026-08-21] — social-proof block: quote mark + required/optional conformance
+- **What was built**: added a decorative serif opening quote mark (`&ldquo;`,
+  `font-heading text-primary mb-2 text-6xl leading-none font-bold`, `aria-hidden`
+  + `select-none`) above each testimonial; made `headline` render unconditionally
+  (required) with `headlineDescription` conditional; hardened the headshot `alt`
+  fallback to `photo.alt || item.name` (empty-string-safe).
+- **Files touched**: `src/payload/blocks/social-proof/component.tsx`.
+- **Notes**: `tsc --noEmit` passes; the file was formatted with
+  `prettier --write`. Cross-ref build-plan 1.2.
+
+### [2026-08-21] — Social proof block built (schema + carousel component + registration)
+- **What was built**: the `socialProof` Payload block end-to-end. Schema
+  (`src/payload/blocks/social-proof/schema.ts`): `headline` (required) +
+  `headlineDescription` (textarea), a `testimonials` array (`required`, `minRows:
+  1`) of `name` (required), `photo` (upload → media), `jobTitle`, and `testimony`
+  (required), plus the standard `backgroundVariant` select. Component
+  (`src/payload/blocks/social-proof/component.tsx`): a `"use client"` section
+  rendering the optional centered header (`headline`/`headlineDescription`) and
+  the shadcn `Carousel` (`opts={{ loop: true }}`) showing one testimonial at a
+  time — optional `rounded-full` headshot, the testimony as a floating serif
+  italic `blockquote` (no card), and `name`/`jobTitle` attribution. Navigation is
+  a `SocialProofNav` child (two `Button variant="outline" size="icon"` controls
+  driven by the carousel's `useCarousel()` `scrollPrev`/`scrollNext`), rendered
+  only when more than one item exists. Registered the block in
+  `src/payload/collections/pages/schema.ts` and
+  `src/payload/blocks/render-blocks.tsx`.
+- **Files touched**: `src/payload/blocks/social-proof/schema.ts`,
+  `src/payload/blocks/social-proof/component.tsx`,
+  `src/payload/collections/pages/schema.ts`,
+  `src/payload/blocks/render-blocks.tsx`, `package.json` (+
+  `embla-carousel-react`), `src/components/ui/carousel.tsx` (installed).
+- **Notes**: `pnpm.cmd generate:types` regenerated `payload-types.ts` and
+  `pnpm.cmd exec tsc --noEmit` + `eslint` both pass (0 errors). The shadcn
+  `carousel` component was installed by Michael and is used for the slides; the
+  default `-ml-4`/`pl-4` slide gutter is dropped (`ml-0`/`pl-0`) so the centered
+  quote stays symmetric. This diverges from the build-plan's documented
+  "Testimonial" section (a single featured floating quote from a `testimonials`
+  collection) — the user chose an inline multi-item array carousel with photos,
+  so the planned `testimonials` collection is not used here. Registered
+  `SocialProofBlock` in `ui-registry.md`. Cross-ref build-plan 1.2.
+
+### [2026-08-20] — meet-michelle block: token conformance + schema review
+- **What was built**: reviewed and conformed the `meet-michelle` Payload block.
+  Schema (`src/payload/blocks/meet-michelle/schema.ts`): `title` (required),
+  `bio` richText (required), `photo` upload → media (required),
+  `backgroundVariant` select. Added `OrderedListFeature`,
+  `UnorderedListFeature`, and `AlignFeature` to the `bio` Lexical editor so it
+  matches `content-editor`. Component
+  (`src/payload/blocks/meet-michelle/component.tsx`): conformed to the design
+  tokens — the manual `px-4 py-20` + `mx-auto max-w-6xl` wrapper became the
+  shared `Container` + `py-16 lg:py-30`, `text-[#1A233D]` → `text-foreground`,
+  `font-bold` → `font-semibold`, removed `shadow-xl` (no shadows), and added a
+  `bg-muted` backdrop behind the photo. Removed the fallback image/alt
+  (`/way-finding-og.webp` / "Michelle Mashonganyika") since `photo` is required —
+  the `Image` now renders only when `photo` is a populated object (hero pattern).
+- **Files touched**: `src/payload/blocks/meet-michelle/schema.ts`,
+  `src/payload/blocks/meet-michelle/component.tsx`.
+- **Notes**: `pnpm.cmd exec eslint` passes on both files. ⚠️ The block is NOT yet
+  registered — `MeetMichelle` is missing from the `layout` blocks array in
+  `src/payload/collections/pages/schema.ts` and from `blockComponents` in
+  `src/payload/blocks/render-blocks.tsx`, so it will not appear in the admin
+  builder or render on the frontend. `payload-types.ts` already lists
+  `MeetMichelle` in the `layout` union (line 207) — stale relative to
+  `pages/schema.ts`; regenerate types after registering. Cross-ref build-plan
+  1.2 (meet-michelle block).
+
+### [2026-08-20] — content-editor `text-heading` fix
+- **What was built**: swapped the nonexistent `text-heading` class for
+  `text-foreground` on the `content-editor` block's `h2`, matching the
+  posts-archive heading pattern.
+- **Files touched**: `src/payload/blocks/content-editor/component.tsx`.
+- **Notes**: `font-heading` is applied to `h1`–`h6` via the base layer, so no
+  explicit class is needed. Cross-ref build-plan 1.2.
+
+### [2026-08-20] — problem-agitation block conformance
+- **What was built**: conformed the `problem-agitation` block to the design
+  tokens — replaced hardcoded `text-[#1A233D]`/`text-[#49536C]` with
+  `text-foreground`/`text-muted-foreground`, `font-bold` → `font-semibold`
+  (600 heading weight), `py-20` → `py-16 lg:py-30` (64px/120px section rhythm),
+  and the manual `px-4` + `mx-auto max-w-4xl` wrapper → the shared `Container`
+  primitive (keeping the inner `max-w-4xl text-center` measure).
+- **Files touched**: `src/payload/blocks/problem-agitation/component.tsx`.
+- **Notes**: the navy/slate hexes were from a foreign palette, not the
+  "Organic Wayfinder" system. Cross-ref build-plan 1.2.
+
+### [2026-08-20] — "Open in new tab" honored on all CMS links
+- **What was built**: the `link` field's `newTab` checkbox was being ignored
+  everywhere it was rendered. Added `{...(newTab ? { rel: "noopener noreferrer",
+  target: "_blank" } : {})}` to every `Link`/`Button` that renders a `link`
+  field, so checked links now open in a new tab (with `noopener noreferrer`).
+- **Files touched**: `src/payload/blocks/programs/component.tsx` (booking CTA),
+  `src/payload/blocks/globals/header/component-client.tsx` (desktop + mobile nav
+  items and discovery CTA), `src/payload/blocks/globals/footer/component-client.tsx`
+  (nav items), `src/payload/blocks/hero/component.tsx` (ctaDiscovery +
+  ctaFreeGuide), `src/payload/blocks/call-to-action/component.tsx` (ctaDiscovery
+  + ctaFreeGuide).
+- **Notes**: matches the existing `CMSLink` pattern in
+  `src/components/payload/link.tsx`. `pnpm.cmd lint` passes (0 errors). The
+  `design/codebase/` scaffold copy is a reference only and was not touched.
+  Cross-ref build-plan 1.1 / 1.2 (header, footer, hero, cta, programs blocks).
+
+### [2026-08-20] — Programs block: booking CTA + dynamic booking link
+- **What was built**: added a top-of-section booking button to the `programs`
+  block, opposite the headline (the posts-archive header pattern), and made the
+  booking link CMS-driven. Schema now includes a `bookingLink` group
+  (`link({ appearances: false })` — internal/custom URL + label + new tab) so
+  the meeting-booking URL is entered in the admin, not hardcoded. The component
+  renders a `Button` (`secondary`, `render={<Link/>}` + `nativeButton={false}`,
+  `size-4` arrow) on the right of the `mb-12 flex ... md:flex-row` header row
+  only when `bookingLink.link.url` is set. Card images also gained the
+  posts-archive hover (group scale-105 + `bg-primary/10` overlay fade), and the
+  price now renders `$` + value + a smaller muted `/person` suffix.
+- **Files touched**: `src/payload/blocks/programs/schema.ts`,
+  `src/payload/blocks/programs/component.tsx`.
+- **Notes**: `pnpm.cmd generate:types` regenerated the `Programs.bookingLink`
+  group and `pnpm.cmd lint` passes (0 errors). The booking button is hidden
+  below `md` (matching posts-archive's `hidden md:inline-flex`). It renders for
+  "Custom URL" links (`link.url`); the "Internal link" (`reference`) path is
+  ignored, same as the hero/header/footer/CTA blocks. Cross-ref build-plan 1.2
+  (programs block).
+
+### [2026-08-20] — Programs block built (schema + component + registration)
+- **What was built**: added the `programs` Payload block end-to-end. Schema
+  (`src/payload/blocks/programs/schema.ts`): `headline` (required) +
+  `headlineDescription`, a `programs` array (`maxRows: 9`) of `programImage`
+  (upload → media), `programTitle` (required), `programDescription` (textarea),
+  `programFeatures` (array, `maxRows: 5`, each `title`), and `programPrice`, plus
+  the standard `backgroundVariant` select. Component
+  (`src/payload/blocks/programs/component.tsx`): a 3-column card grid
+  (`md:grid-cols-2 lg:grid-cols-3`) matching the posts-archive card language —
+  `border-card-border bg-card rounded-lg border` (no shadow), `aspect-16/10`
+  image with `Compass` fallback, `Check`-icon feature list, and a bottom-anchored
+  `mt-auto` price. Registered the block in
+  `src/payload/collections/pages/schema.ts` and
+  `src/payload/blocks/render-blocks.tsx`.
+- **Files touched**: `src/payload/blocks/programs/schema.ts` (new),
+  `src/payload/blocks/programs/component.tsx` (new),
+  `src/payload/collections/pages/schema.ts`,
+  `src/payload/blocks/render-blocks.tsx`.
+- **Notes**: `pnpm.cmd generate:types` regenerated `payload-types.ts` (new
+  `Programs` interface) and `pnpm.cmd lint` passes (0 errors). Michael edited the
+  schema after the agent wrote it — array item fields renamed to the
+  `program*`-prefixed names above, `headline` made required, labels changed to
+  singular "Program Block". The design reference image
+  (`context/designs/interface/programs-section.png`) could not be viewed (no
+  image input) — the grid was built to the written 3×3 spec and the established
+  card pattern. Cross-ref build-plan 1.2 (programs block).
+
 ### [2026-08-20] — Container component refactor
 - **What was built**: added a `--container: 1120px` token (`globals.css` `:root`)
   and rebuilt the shared `Container` (`src/components/container.tsx`) from the

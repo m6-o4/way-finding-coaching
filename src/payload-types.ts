@@ -204,7 +204,9 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive | ContentEditor | CallToAction)[];
+  layout: (
+    Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs | MeetMichelle | SocialProof
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -447,6 +449,109 @@ export interface Callstoaction {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProblemAgitation".
+ */
+export interface ProblemAgitation {
+  problem: string;
+  challenge: string;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'problemAgitation';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Programs".
+ */
+export interface Programs {
+  headline: string;
+  headlineDescription?: string | null;
+  bookingLink: {
+    link: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+    };
+  };
+  programs?:
+    | {
+        programImage?: (string | null) | Media;
+        programTitle: string;
+        programDescription?: string | null;
+        programFeatures?:
+          | {
+              title: string;
+              id?: string | null;
+            }[]
+          | null;
+        programPrice?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'programs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MeetMichelle".
+ */
+export interface MeetMichelle {
+  headline: string;
+  headlineDescription?: string | null;
+  photo: string | Media;
+  bio: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'meetMichelle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProof".
+ */
+export interface SocialProof {
+  headline: string;
+  headlineDescription?: string | null;
+  testimonials: {
+    name: string;
+    photo?: (string | null) | Media;
+    jobTitle?: string | null;
+    testimony: string;
+    id?: string | null;
+  }[];
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'socialProof';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -736,6 +841,10 @@ export interface PagesSelect<T extends boolean = true> {
         postsArchive?: T | PostsArchiveSelect<T>;
         contentEditor?: T | ContentEditorSelect<T>;
         callToAction?: T | CallToActionSelect<T>;
+        problemAgitation?: T | ProblemAgitationSelect<T>;
+        programs?: T | ProgramsSelect<T>;
+        meetMichelle?: T | MeetMichelleSelect<T>;
+        socialProof?: T | SocialProofSelect<T>;
       };
   meta?:
     | T
@@ -825,6 +934,89 @@ export interface ContentEditorSelect<T extends boolean = true> {
  */
 export interface CallToActionSelect<T extends boolean = true> {
   calltoaction?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProblemAgitation_select".
+ */
+export interface ProblemAgitationSelect<T extends boolean = true> {
+  problem?: T;
+  challenge?: T;
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  bookingLink?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+      };
+  programs?:
+    | T
+    | {
+        programImage?: T;
+        programTitle?: T;
+        programDescription?: T;
+        programFeatures?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+            };
+        programPrice?: T;
+        id?: T;
+      };
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MeetMichelle_select".
+ */
+export interface MeetMichelleSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  photo?: T;
+  bio?: T;
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProof_select".
+ */
+export interface SocialProofSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  testimonials?:
+    | T
+    | {
+        name?: T;
+        photo?: T;
+        jobTitle?: T;
+        testimony?: T;
+        id?: T;
+      };
+  backgroundVariant?: T;
   id?: T;
   blockName?: T;
 }

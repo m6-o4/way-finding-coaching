@@ -25,7 +25,12 @@ const CallToActionBlock = ({ calltoaction }: CallToAction) => {
 					{ctaDiscovery.link && (
 						<Button
 							render={
-								<Link href={ctaDiscovery.link.url || "#"}>
+								<Link
+									href={ctaDiscovery.link.url || "#"}
+									{...(ctaDiscovery.link.newTab
+										? { rel: "noopener noreferrer", target: "_blank" }
+										: {})}
+								>
 									{ctaDiscovery.link.label || "#"}
 								</Link>
 							}
@@ -38,7 +43,12 @@ const CallToActionBlock = ({ calltoaction }: CallToAction) => {
 					{ctaFreeGuide.link && (
 						<Button
 							render={
-								<Link href={ctaFreeGuide.link.url || "#"}>
+								<Link
+									href={ctaFreeGuide.link.url || "#"}
+									{...(ctaFreeGuide.link.newTab
+										? { rel: "noopener noreferrer", target: "_blank" }
+										: {})}
+								>
 									{ctaFreeGuide.link.label || "#"}
 									<ArrowRight className="ml-2 size-4 transition-transform group-hover/button:translate-x-1" />
 								</Link>

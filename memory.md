@@ -1,60 +1,36 @@
-# Memory — Theme conformance sweep + Container refactor
+# Memory — Social proof carousel + meet-michelle conformance
 
-Last updated: 2026-08-20 13:29 +03:00
+Last updated: 2026-08-21 08:46 +03:00
 
 ## What was built
 
-- Installed shadcn `badge`, conformed its `rounded-4xl` → `rounded-full`.
-- Conformed `src/app/(web)/posts/[slug]/page.tsx` (headings + card image frame).
-- Conformed `src/payload/blocks/posts-archive/component.tsx` end-to-end
-  (headline, CTA, card, category badge, card body).
-- Posts schema: added Lexical `OrderedListFeature`/`UnorderedListFeature`
-  (change made by Michael, verified).
-- Posts revalidation hooks: added `revalidatePath("/")` + `revalidatePath("/posts")`
-  (change made by Michael, verified).
-- Container refactor: added `--container: 1120px` token and rebuilt the shared
-  `Container`; conformed every container surface — `call-to-action`,
-  `posts-archive`, `not-found`, header (nav + dropdown), hero (primary).
-  `content-editor` and `posts/[slug]` needed no change.
+- Built the `socialProof` Payload block end-to-end: `src/payload/blocks/social-proof/schema.ts` (`headline` required, `headlineDescription` optional, `testimonials` array required `minRows: 1` of `name`(req) / `photo`(upload → media) / `jobTitle` / `testimony`(req), plus `backgroundVariant`) + `src/payload/blocks/social-proof/component.tsx` (a shadcn Carousel testimonial carousel) + registration in `pages/schema.ts` and `render-blocks.tsx`.
+- Michael installed the shadcn `carousel` component (`src/components/ui/carousel.tsx`, `embla-carousel-react`) and changed `meet-michelle/schema.ts` (`title` → `headline` required + `headlineDescription` optional); I updated `meet-michelle/component.tsx` to match.
+- Added a decorative serif `“` quote mark above each testimonial (`font-heading text-primary text-6xl font-bold`, `aria-hidden`).
 
 ## Decisions made
 
-- `--container: 1120px` is the single page-width token, consumed as
-  `max-w-(--container)` (Tailwind v4 variable shorthand). No `max-w-6xl`
-  (1152px) remains anywhere in `src`.
-- Section vertical rhythm is 64px mobile / 120px desktop (`py-16 lg:py-30`),
-  owned by each section — `Container` carries no vertical padding.
-- Hand-rolled buttons/badges/containers are replaced with the `Button`/`Badge`/
-  `Container` primitives, not restyled in place.
-- "View All Articles" CTA is a `secondary` Button.
+- Social proof is an inline multi-item array carousel inside one block — NOT the build-plan's planned `testimonials` collection with a single `featured` quote. User's explicit choice.
+- Carousel uses the shadcn `Carousel` (embla) with `loop: true`; the default `-ml-4`/`pl-4` slide gutter is dropped (`ml-0`/`pl-0`) to keep the centered quote symmetric. Navigation is a custom `SocialProofNav` child via `useCarousel()` (`scrollPrev`/`scrollNext`) — the stock `CarouselPrevious`/`CarouselNext` (absolute-positioned) were not used.
+- Required fields render unconditionally; optional fields (`headlineDescription`, `photo`, `jobTitle`) render conditionally — applied consistently in both social-proof and meet-michelle.
 
 ## Problems solved
 
+- A carousel needs many items but the original social-proof schema stored one → restructured into a `testimonials` array (user chose "array in block" over "relationship to a collection").
 - `pnpm.ps1` blocked by PowerShell execution policy → use `pnpm.cmd`.
-- `container` utility was removed in Tailwind v4 — the old `Container` had no
-  max-width and inert `mx-auto`. Replaced with explicit `max-w-(--container)`.
-- `font-display`, `text-text-default`, and `text-heading` are nonexistent classes;
-  real tokens are `font-heading`/`font-sans` + `text-foreground`.
-- Recurring violations fixed: `shadow-*` (none allowed), `border-border` on cards
-  (use `border-card-border`), `rounded-2xl` on cards (use `rounded-lg`).
+- embla's default slide gutter would off-center the centered quote → `ml-0`/`pl-0` overrides on `CarouselContent`/`CarouselItem`.
 
 ## Current state
 
-- All existing UI surfaces conform to the design tokens at the 1120px width.
-- Posts archive block refreshes on new-post publish (revalidation fix).
-- Posts rich text has bullet + numbered lists.
-- `ui-registry.md` and `progress-tracker.md` are up to date.
+- `socialProof` and `meetMichelle` are both registered in `pages/schema.ts` and `render-blocks.tsx` and render (carousel with headline + optional description, quote mark, headshot, name/jobTitle; meet-michelle headline + optional description, photo/bio required).
+- `payload-types.ts` regenerated; `tsc --noEmit` and `eslint` pass (0 errors). Needs a visual pass in dev; `pnpm.cmd build` still never run across these sessions.
 
 ## Next session starts with
 
-- Run `pnpm lint` / `pnpm build` (skipped this session) to confirm no
-  regressions, then a visual pass of `/`, `/posts/[slug]`, and a 404 page.
-- Resume `build-plan.md` Phase 1.2: remaining blocks (programs, testimonial,
-  meet-michelle, faq) and the homepage assembly; then Phase 2.1 `/posts` index.
+- Visual pass of the social-proof carousel and meet-michelle headline in dev (light/dark, mobile widths).
+- Run `pnpm.cmd build`.
+- Resume `build-plan.md` Phase 1.2: remaining blocks (faq, testimonial) + homepage assembly; then Phase 2.1 `/posts` index.
 
 ## Open questions
 
-- `content-editor/compoent.tsx` still has a nonexistent `text-heading` class on
-  its `h2` (flagged, not yet fixed) and a filename typo (`compoent` → `component`).
-- Post-detail minor items deliberately left: dead `text-sm` on the categories
-  wrapper; mobile title `text-4xl` (36px) off the type scale.
+- None blocking — both new blocks need a real dev visual check before declaring done.

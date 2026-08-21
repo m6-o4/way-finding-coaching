@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.8.0...v1.9.0) (2026-08-21)
+
+
+### Features
+
+* **blocks:** add anchor ids to block sections for navigation ([eda8036](https://github.com/m6-o4/way-finding-coaching/commit/eda80360dda86bc6b8a1fb22459fe8d80d0265a8))
+* **blocks:** add FAQ block ([31600b4](https://github.com/m6-o4/way-finding-coaching/commit/31600b4a815c20abacaace8ef6058176a804c9d0))
+* **blocks:** add program benefits block ([4572826](https://github.com/m6-o4/way-finding-coaching/commit/45728269d8517c4a663d590b623a76670a5825fb))
+
 # [1.8.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.7.0...v1.8.0) (2026-08-21)
 
 ### Bug Fixes

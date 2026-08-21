@@ -4,6 +4,7 @@ import {
 	isAdminOrEditor,
 	isAdminOrEditorOrPublished,
 } from "@/payload/access/access-control";
+import { ProgramBenefits } from "@/payload/blocks/program-benefits/schema";
 import { CallToAction } from "@/payload/blocks/call-to-action/schema";
 import { ContentEditor } from "@/payload/blocks/content-editor/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
@@ -80,6 +81,7 @@ const Pages: CollectionConfig<"pages"> = {
 								CallToAction,
 								ProblemAgitation,
 								Programs,
+								ProgramBenefits,
 								MeetMichelle,
 								SocialProof,
 							],

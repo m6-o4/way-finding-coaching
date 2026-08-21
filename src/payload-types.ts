@@ -205,7 +205,15 @@ export interface Page {
   id: string;
   title: string;
   layout: (
-    Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs | MeetMichelle | SocialProof
+    | Hero
+    | PostsArchive
+    | ContentEditor
+    | CallToAction
+    | ProblemAgitation
+    | Programs
+    | ProgramBenefits
+    | MeetMichelle
+    | SocialProof
   )[];
   meta?: {
     title?: string | null;
@@ -505,6 +513,30 @@ export interface Programs {
   id?: string | null;
   blockName?: string | null;
   blockType: 'programs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProgramBenefits".
+ */
+export interface ProgramBenefits {
+  headline: string;
+  headlineDescription?: string | null;
+  programs?:
+    | {
+        programTitle: string;
+        benefits?:
+          | {
+              title: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'programBenefits';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -843,6 +875,7 @@ export interface PagesSelect<T extends boolean = true> {
         callToAction?: T | CallToActionSelect<T>;
         problemAgitation?: T | ProblemAgitationSelect<T>;
         programs?: T | ProgramsSelect<T>;
+        programBenefits?: T | ProgramBenefitsSelect<T>;
         meetMichelle?: T | MeetMichelleSelect<T>;
         socialProof?: T | SocialProofSelect<T>;
       };
@@ -981,6 +1014,29 @@ export interface ProgramsSelect<T extends boolean = true> {
               id?: T;
             };
         programPrice?: T;
+        id?: T;
+      };
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProgramBenefits_select".
+ */
+export interface ProgramBenefitsSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  programs?:
+    | T
+    | {
+        programTitle?: T;
+        benefits?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+            };
         id?: T;
       };
   backgroundVariant?: T;

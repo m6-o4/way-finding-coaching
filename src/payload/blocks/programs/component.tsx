@@ -23,7 +23,7 @@ const ProgramsBlock = ({
 	const bookingHref = bookingLink?.link?.url ?? null;
 
 	return (
-		<section className={cn("py-16 lg:py-30", backgroundClass)}>
+		<section id="programs" className={cn("py-16 lg:py-30", backgroundClass)}>
 			<Container>
 				{(headline || headlineDescription || bookingHref) && (
 					<div className="mb-12 flex flex-col items-end justify-between md:flex-row">

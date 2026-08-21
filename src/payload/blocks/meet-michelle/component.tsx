@@ -20,7 +20,7 @@ const MeetMichelleBlock = ({
 	const backgroundClass = bgMap[backgroundVariant] ?? "bg-background";
 
 	return (
-		<section className={cn("py-16 lg:py-30", backgroundClass)}>
+		<section id="meet-michelle" className={cn("py-16 lg:py-30", backgroundClass)}>
 			<Container>
 				<div className="mb-12 text-center">
 					<h2 className="text-foreground mb-4 text-3xl font-semibold md:text-4xl">

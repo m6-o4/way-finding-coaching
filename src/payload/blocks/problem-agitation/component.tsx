@@ -15,9 +15,11 @@ const ProblemAgitationBlock = ({
 	const backgroundClass = bgMap[backgroundVariant] ?? "bg-background";
 
 	return (
-		<section className={cn("py-16 lg:py-30", backgroundClass)}>
+		<section id="problem-agitation" className={cn("py-16 lg:py-30", backgroundClass)}>
 			<Container className="max-w-4xl text-center">
-				<h2 className="text-foreground mb-8 text-3xl font-semibold md:text-4xl">{problem}</h2>
+				<h2 className="text-foreground mb-8 text-3xl font-semibold md:text-4xl">
+					{problem}
+				</h2>
 				<p className="text-muted-foreground text-lg leading-relaxed text-pretty md:text-xl">
 					{challenge}
 				</p>

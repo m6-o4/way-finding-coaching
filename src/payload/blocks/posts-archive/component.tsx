@@ -65,7 +65,7 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 	}
 
 	return (
-		<div className={cn("py-16 lg:py-30", backgroundClass)}>
+		<div id="posts-archive" className={cn("py-16 lg:py-30", backgroundClass)}>
 			<Container>
 				<div id={`block-${id}`}>
 					{/* render headline and description if present */}

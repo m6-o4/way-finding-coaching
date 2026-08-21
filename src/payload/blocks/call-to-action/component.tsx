@@ -13,7 +13,10 @@ const CallToActionBlock = ({ calltoaction }: CallToAction) => {
 	const { ctaDiscovery, ctaFreeGuide, headline, headlineDescription } = calltoaction;
 
 	return (
-		<section className="bg-primary relative overflow-hidden py-16 lg:py-30">
+		<section
+			id="call-to-action"
+			className="bg-primary relative overflow-hidden py-16 lg:py-30"
+		>
 			<Container className="text-center">
 				<h2 className="text-primary-foreground font-heading mb-6 text-4xl font-semibold sm:text-5xl">
 					{headline}

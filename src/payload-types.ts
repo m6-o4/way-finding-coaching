@@ -204,7 +204,9 @@ export interface Media {
 export interface Page {
   id: string;
   title: string;
-  layout: (Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs | MeetMichelle)[];
+  layout: (
+    Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs | MeetMichelle | SocialProof
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -509,7 +511,8 @@ export interface Programs {
  * via the `definition` "MeetMichelle".
  */
 export interface MeetMichelle {
-  title: string;
+  headline: string;
+  headlineDescription?: string | null;
   photo: string | Media;
   bio: {
     root: {
@@ -530,6 +533,25 @@ export interface MeetMichelle {
   id?: string | null;
   blockName?: string | null;
   blockType: 'meetMichelle';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProof".
+ */
+export interface SocialProof {
+  headline: string;
+  headlineDescription?: string | null;
+  testimonials: {
+    name: string;
+    photo?: (string | null) | Media;
+    jobTitle?: string | null;
+    testimony: string;
+    id?: string | null;
+  }[];
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'socialProof';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -822,6 +844,7 @@ export interface PagesSelect<T extends boolean = true> {
         problemAgitation?: T | ProblemAgitationSelect<T>;
         programs?: T | ProgramsSelect<T>;
         meetMichelle?: T | MeetMichelleSelect<T>;
+        socialProof?: T | SocialProofSelect<T>;
       };
   meta?:
     | T
@@ -969,9 +992,30 @@ export interface ProgramsSelect<T extends boolean = true> {
  * via the `definition` "MeetMichelle_select".
  */
 export interface MeetMichelleSelect<T extends boolean = true> {
-  title?: T;
+  headline?: T;
+  headlineDescription?: T;
   photo?: T;
   bio?: T;
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SocialProof_select".
+ */
+export interface SocialProofSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  testimonials?:
+    | T
+    | {
+        name?: T;
+        photo?: T;
+        jobTitle?: T;
+        testimony?: T;
+        id?: T;
+      };
   backgroundVariant?: T;
   id?: T;
   blockName?: T;

@@ -1,43 +1,36 @@
-# Memory — Programs block + design-token conformance
+# Memory — Social proof carousel + meet-michelle conformance
 
-Last updated: 2026-08-20 20:26 +03:00
+Last updated: 2026-08-21 08:46 +03:00
 
 ## What was built
 
-- Fixed `src/payload/blocks/content-editor/component.tsx`: nonexistent `text-heading` → `text-foreground` on the `h2`.
-- Conformed `src/payload/blocks/problem-agitation/component.tsx`: hardcoded `text-[#1A233D]`/`text-[#49536C]` → `text-foreground`/`text-muted-foreground`, `font-bold` → `font-semibold`, `py-20` → `py-16 lg:py-30`, manual `px-4`+`mx-auto` wrapper → shared `Container`.
-- Built the `programs` Payload block end-to-end: `schema.ts` (`headline` required, `headlineDescription`, `bookingLink` link group, `programs` array max 9 of `programImage`/`programTitle`/`programDescription`/`programFeatures[]`/`programPrice`, `backgroundVariant`) + `component.tsx` (3-col card grid) + registration in `pages/schema.ts` and `render-blocks.tsx`.
-- Programs card: posts-archive hover (group `scale-105` + `bg-primary/10` overlay fade), price renders `$X` + smaller muted `/person` suffix.
-- Top-of-section booking CTA opposite the headline (posts-archive header pattern), CMS-driven via `bookingLink`.
-- "Open in new tab" now honored everywhere a `link` field is rendered (programs, header nav + discovery, footer nav, hero CTAs, call-to-action CTAs) via `{ rel: "noopener noreferrer", target: "_blank" }`.
+- Built the `socialProof` Payload block end-to-end: `src/payload/blocks/social-proof/schema.ts` (`headline` required, `headlineDescription` optional, `testimonials` array required `minRows: 1` of `name`(req) / `photo`(upload → media) / `jobTitle` / `testimony`(req), plus `backgroundVariant`) + `src/payload/blocks/social-proof/component.tsx` (a shadcn Carousel testimonial carousel) + registration in `pages/schema.ts` and `render-blocks.tsx`.
+- Michael installed the shadcn `carousel` component (`src/components/ui/carousel.tsx`, `embla-carousel-react`) and changed `meet-michelle/schema.ts` (`title` → `headline` required + `headlineDescription` optional); I updated `meet-michelle/component.tsx` to match.
+- Added a decorative serif `“` quote mark above each testimonial (`font-heading text-primary text-6xl font-bold`, `aria-hidden`).
 
 ## Decisions made
 
-- Booking link is CMS-driven via the existing `link()` factory wrapped in an optional `bookingLink` group (matching hero's `ctaDiscovery`), so the button renders only when `bookingLink.link.url` is set.
-- Booking button: `variant="secondary"`, hidden below `md` (`hidden md:inline-flex`), matching posts-archive.
-- Price is a plain text field; the component prefixes `$` and appends `/person` (muted `text-base`), so the CMS stores just the amount.
-- Only "Custom URL" links render the button; the `link` field's "Internal link" (`reference`) path is ignored — same as hero/header/footer/CTA.
+- Social proof is an inline multi-item array carousel inside one block — NOT the build-plan's planned `testimonials` collection with a single `featured` quote. User's explicit choice.
+- Carousel uses the shadcn `Carousel` (embla) with `loop: true`; the default `-ml-4`/`pl-4` slide gutter is dropped (`ml-0`/`pl-0`) to keep the centered quote symmetric. Navigation is a custom `SocialProofNav` child via `useCarousel()` (`scrollPrev`/`scrollNext`) — the stock `CarouselPrevious`/`CarouselNext` (absolute-positioned) were not used.
+- Required fields render unconditionally; optional fields (`headlineDescription`, `photo`, `jobTitle`) render conditionally — applied consistently in both social-proof and meet-michelle.
 
 ## Problems solved
 
-- `link({ overrides: { name } })` used directly yields a *required* group type (inner `label` is required); wrapping it in an outer `group` field makes it optional/nullable (confirmed in generated `payload-types.ts`).
+- A carousel needs many items but the original social-proof schema stored one → restructured into a `testimonials` array (user chose "array in block" over "relationship to a collection").
 - `pnpm.ps1` blocked by PowerShell execution policy → use `pnpm.cmd`.
-- Design reference image (`context/designs/interface/programs-section.png`) cannot be viewed (no image input) — grid built to the written 3×3 spec and the established card pattern.
+- embla's default slide gutter would off-center the centered quote → `ml-0`/`pl-0` overrides on `CarouselContent`/`CarouselItem`.
 
 ## Current state
 
-- Programs block renders; needs a visual pass in dev.
-- `payload-types.ts` regenerated (`Programs` interface with `bookingLink`).
-- Lint passes (0 errors); Prettier clean.
-- `ui-registry.md` (ProgramsBlock + ProblemAgitationBlock) and `progress-tracker.md` updated.
+- `socialProof` and `meetMichelle` are both registered in `pages/schema.ts` and `render-blocks.tsx` and render (carousel with headline + optional description, quote mark, headshot, name/jobTitle; meet-michelle headline + optional description, photo/bio required).
+- `payload-types.ts` regenerated; `tsc --noEmit` and `eslint` pass (0 errors). Needs a visual pass in dev; `pnpm.cmd build` still never run across these sessions.
 
 ## Next session starts with
 
-- Visual pass of the programs section (homepage `Programs` block): card grid, image hover, price `/person`, booking button incl. new-tab.
-- Run `pnpm.cmd build` (never run this session).
-- Resume `build-plan.md` Phase 1.2: remaining blocks (testimonial, meet-michelle, faq) + homepage assembly; then Phase 2.1 `/posts` index.
+- Visual pass of the social-proof carousel and meet-michelle headline in dev (light/dark, mobile widths).
+- Run `pnpm.cmd build`.
+- Resume `build-plan.md` Phase 1.2: remaining blocks (faq, testimonial) + homepage assembly; then Phase 2.1 `/posts` index.
 
 ## Open questions
 
-- Should the booking button be visible on mobile (currently `hidden md:inline-flex`)?
-- Should "Internal link" (`reference`) links render the booking button (currently only `url`)?
+- None blocking — both new blocks need a real dev visual check before declaring done.

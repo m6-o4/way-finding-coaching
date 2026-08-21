@@ -15,10 +15,15 @@ const MeetMichelle: Block = {
 	labels: { singular: "Meet Michelle Block", plural: "Meet Michelle Blocks" },
 	fields: [
 		{
-			name: "title",
+			name: "headline",
 			type: "text",
-			label: "Title",
+			label: "Headline",
 			required: true,
+		},
+		{
+			name: "headlineDescription",
+			type: "textarea",
+			label: "Headline Description",
 		},
 		{
 			name: "photo",

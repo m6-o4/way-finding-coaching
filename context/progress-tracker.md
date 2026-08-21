@@ -21,6 +21,60 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-21] — meet-michelle block: title → headline + headlineDescription
+- **What was built**: conformed the `meet-michelle` block to Michael's schema
+  change — `title` (text) was replaced by `headline` (required) + optional
+  `headlineDescription` (textarea). Updated the component to render `headline`
+  unconditionally, `headlineDescription` conditionally, and dropped the
+  now-redundant `bio &&` guard (`bio` is required). `photo` stays required
+  (`string | Media`), so the `typeof photo === "object"` populated-object guard
+  is kept for the `Image`.
+- **Files touched**: `src/payload/blocks/meet-michelle/component.tsx`.
+- **Notes**: `tsc --noEmit` + `eslint` pass (0 errors). `meetMichelle` is
+  registered in both `pages/schema.ts` and `render-blocks.tsx`. Cross-ref
+  build-plan 1.2.
+
+### [2026-08-21] — social-proof block: quote mark + required/optional conformance
+- **What was built**: added a decorative serif opening quote mark (`&ldquo;`,
+  `font-heading text-primary mb-2 text-6xl leading-none font-bold`, `aria-hidden`
+  + `select-none`) above each testimonial; made `headline` render unconditionally
+  (required) with `headlineDescription` conditional; hardened the headshot `alt`
+  fallback to `photo.alt || item.name` (empty-string-safe).
+- **Files touched**: `src/payload/blocks/social-proof/component.tsx`.
+- **Notes**: `tsc --noEmit` passes; the file was formatted with
+  `prettier --write`. Cross-ref build-plan 1.2.
+
+### [2026-08-21] — Social proof block built (schema + carousel component + registration)
+- **What was built**: the `socialProof` Payload block end-to-end. Schema
+  (`src/payload/blocks/social-proof/schema.ts`): `headline` (required) +
+  `headlineDescription` (textarea), a `testimonials` array (`required`, `minRows:
+  1`) of `name` (required), `photo` (upload → media), `jobTitle`, and `testimony`
+  (required), plus the standard `backgroundVariant` select. Component
+  (`src/payload/blocks/social-proof/component.tsx`): a `"use client"` section
+  rendering the optional centered header (`headline`/`headlineDescription`) and
+  the shadcn `Carousel` (`opts={{ loop: true }}`) showing one testimonial at a
+  time — optional `rounded-full` headshot, the testimony as a floating serif
+  italic `blockquote` (no card), and `name`/`jobTitle` attribution. Navigation is
+  a `SocialProofNav` child (two `Button variant="outline" size="icon"` controls
+  driven by the carousel's `useCarousel()` `scrollPrev`/`scrollNext`), rendered
+  only when more than one item exists. Registered the block in
+  `src/payload/collections/pages/schema.ts` and
+  `src/payload/blocks/render-blocks.tsx`.
+- **Files touched**: `src/payload/blocks/social-proof/schema.ts`,
+  `src/payload/blocks/social-proof/component.tsx`,
+  `src/payload/collections/pages/schema.ts`,
+  `src/payload/blocks/render-blocks.tsx`, `package.json` (+
+  `embla-carousel-react`), `src/components/ui/carousel.tsx` (installed).
+- **Notes**: `pnpm.cmd generate:types` regenerated `payload-types.ts` and
+  `pnpm.cmd exec tsc --noEmit` + `eslint` both pass (0 errors). The shadcn
+  `carousel` component was installed by Michael and is used for the slides; the
+  default `-ml-4`/`pl-4` slide gutter is dropped (`ml-0`/`pl-0`) so the centered
+  quote stays symmetric. This diverges from the build-plan's documented
+  "Testimonial" section (a single featured floating quote from a `testimonials`
+  collection) — the user chose an inline multi-item array carousel with photos,
+  so the planned `testimonials` collection is not used here. Registered
+  `SocialProofBlock` in `ui-registry.md`. Cross-ref build-plan 1.2.
+
 ### [2026-08-20] — meet-michelle block: token conformance + schema review
 - **What was built**: reviewed and conformed the `meet-michelle` Payload block.
   Schema (`src/payload/blocks/meet-michelle/schema.ts`): `title` (required),

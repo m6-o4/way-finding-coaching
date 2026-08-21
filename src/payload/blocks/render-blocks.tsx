@@ -8,6 +8,7 @@ import { MeetMichelleBlock } from "@/payload/blocks/meet-michelle/component";
 import { PostsArchiveBlock } from "@/payload/blocks/posts-archive/component";
 import { ProblemAgitationBlock } from "@/payload/blocks/problem-agitation/component";
 import { ProgramsBlock } from "@/payload/blocks/programs/component";
+import { SocialProofBlock } from "@/payload/blocks/social-proof/component";
 
 // defines which payload block types map to which react components.
 // this acts as a registry that drives dynamic page rendering.
@@ -19,6 +20,7 @@ const blockComponents = {
 	postsArchive: PostsArchiveBlock,
 	problemAgitation: ProblemAgitationBlock,
 	programs: ProgramsBlock,
+	socialProof: SocialProofBlock,
 } as const;
 
 type BlockKey = keyof typeof blockComponents;

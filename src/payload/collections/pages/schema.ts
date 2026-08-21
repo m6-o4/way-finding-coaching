@@ -11,6 +11,7 @@ import { MeetMichelle } from "@/payload/blocks/meet-michelle/schema";
 import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
 import { ProblemAgitation } from "@/payload/blocks/problem-agitation/schema";
 import { Programs } from "@/payload/blocks/programs/schema";
+import { SocialProof } from "@/payload/blocks/social-proof/schema";
 import {
 	revalidateDelete,
 	revalidatePage,
@@ -80,6 +81,7 @@ const Pages: CollectionConfig<"pages"> = {
 								ProblemAgitation,
 								Programs,
 								MeetMichelle,
+								SocialProof,
 							],
 						},
 					],

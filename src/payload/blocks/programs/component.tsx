@@ -4,6 +4,13 @@ import Link from "next/link";
 
 import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { Programs } from "@/payload-types";
 
@@ -71,9 +78,9 @@ const ProgramsBlock = ({
 							const features = program.programFeatures ?? [];
 
 							return (
-								<article
+								<Card
 									key={program.id ?? index}
-									className="group border-card-border bg-card flex h-full flex-col overflow-hidden rounded-lg border"
+									className="group h-full gap-0 overflow-hidden rounded-lg border border-card-border p-0 ring-0"
 								>
 									<div className="bg-muted relative aspect-16/10 overflow-hidden">
 										{imageSrc ? (
@@ -94,19 +101,21 @@ const ProgramsBlock = ({
 										)}
 									</div>
 
-									<div className="flex flex-1 flex-col p-6">
-										<h3 className="text-foreground mb-3 text-xl font-semibold">
+									<CardHeader className="block p-6 pb-0">
+										<CardTitle className="text-foreground mb-3 text-xl font-semibold">
 											{program.programTitle}
-										</h3>
+										</CardTitle>
 
 										{program.programDescription && (
-											<p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+											<CardDescription className="mb-4 leading-relaxed">
 												{program.programDescription}
-											</p>
+											</CardDescription>
 										)}
+									</CardHeader>
 
+									<CardContent className="flex flex-1 flex-col p-6 pt-0">
 										{features.length > 0 && (
-											<ul className="mb-6 space-y-2">
+											<ul className="mb-6 flex flex-col gap-2">
 												{features.map((feature, featureIndex) => (
 													<li
 														key={feature.id ?? featureIndex}
@@ -129,8 +138,8 @@ const ProgramsBlock = ({
 												</p>
 											</div>
 										)}
-									</div>
-								</article>
+									</CardContent>
+								</Card>
 							);
 						})}
 					</div>

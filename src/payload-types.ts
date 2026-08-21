@@ -205,7 +205,16 @@ export interface Page {
   id: string;
   title: string;
   layout: (
-    Hero | PostsArchive | ContentEditor | CallToAction | ProblemAgitation | Programs | MeetMichelle | SocialProof
+    | Hero
+    | PostsArchive
+    | ContentEditor
+    | CallToAction
+    | ProblemAgitation
+    | Programs
+    | ProgramBenefits
+    | MeetMichelle
+    | SocialProof
+    | Faq
   )[];
   meta?: {
     title?: string | null;
@@ -508,6 +517,30 @@ export interface Programs {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProgramBenefits".
+ */
+export interface ProgramBenefits {
+  headline: string;
+  headlineDescription?: string | null;
+  programs?:
+    | {
+        programTitle: string;
+        benefits?:
+          | {
+              title: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'programBenefits';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MeetMichelle".
  */
 export interface MeetMichelle {
@@ -552,6 +585,25 @@ export interface SocialProof {
   id?: string | null;
   blockName?: string | null;
   blockType: 'socialProof';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Faq".
+ */
+export interface Faq {
+  headline: string;
+  headlineDescription?: string | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -843,8 +895,10 @@ export interface PagesSelect<T extends boolean = true> {
         callToAction?: T | CallToActionSelect<T>;
         problemAgitation?: T | ProblemAgitationSelect<T>;
         programs?: T | ProgramsSelect<T>;
+        programBenefits?: T | ProgramBenefitsSelect<T>;
         meetMichelle?: T | MeetMichelleSelect<T>;
         socialProof?: T | SocialProofSelect<T>;
+        faq?: T | FaqSelect<T>;
       };
   meta?:
     | T
@@ -989,6 +1043,29 @@ export interface ProgramsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProgramBenefits_select".
+ */
+export interface ProgramBenefitsSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  programs?:
+    | T
+    | {
+        programTitle?: T;
+        benefits?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "MeetMichelle_select".
  */
 export interface MeetMichelleSelect<T extends boolean = true> {
@@ -1014,6 +1091,24 @@ export interface SocialProofSelect<T extends boolean = true> {
         photo?: T;
         jobTitle?: T;
         testimony?: T;
+        id?: T;
+      };
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
         id?: T;
       };
   backgroundVariant?: T;

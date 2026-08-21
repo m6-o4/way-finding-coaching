@@ -57,7 +57,7 @@ const SocialProofBlock = ({
 	if (items.length === 0) return null;
 
 	return (
-		<section className={cn("py-16 lg:py-30", backgroundClass)}>
+		<section id="social-proof" className={cn("py-16 lg:py-30", backgroundClass)}>
 			<Container>
 				<div className="mx-auto max-w-3xl">
 					<div className="mb-12 text-center">

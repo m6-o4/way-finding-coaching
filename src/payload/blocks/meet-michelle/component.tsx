@@ -20,7 +20,7 @@ const MeetMichelleBlock = ({
 	const backgroundClass = bgMap[backgroundVariant] ?? "bg-background";
 
 	return (
-		<section className={cn("py-16 lg:py-30", backgroundClass)}>
+		<section id="meet-michelle" className={cn("py-16 lg:py-30", backgroundClass)}>
 			<Container>
 				<div className="mb-12 text-center">
 					<h2 className="text-foreground mb-4 text-3xl font-semibold md:text-4xl">
@@ -32,7 +32,7 @@ const MeetMichelleBlock = ({
 				</div>
 				<div className="grid items-start gap-12 lg:grid-cols-3">
 					<div className="lg:col-span-1">
-						<div className="bg-muted relative aspect-4/5 w-full overflow-hidden rounded-lg">
+						<div className="bg-muted relative aspect-4/5 w-full overflow-hidden rounded-lg border border-card-border">
 							{typeof photo === "object" && photo !== null && (
 								<Image
 									src={photo.url ?? ""}

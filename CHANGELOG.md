@@ -1,17 +1,20 @@
 # [1.8.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.7.0...v1.8.0) (2026-08-21)
 
-
 ### Bug Fixes
 
-* **posts:** revalidate home page when posts change ([139b3cf](https://github.com/m6-o4/way-finding-coaching/commit/139b3cf419710a343ee5d4f5b10660a82bb3f99b))
-
+- **posts:** revalidate home page when posts change
+  ([139b3cf](https://github.com/m6-o4/way-finding-coaching/commit/139b3cf419710a343ee5d4f5b10660a82bb3f99b))
 
 ### Features
 
-* **blocks:** add problem agitation block to pages ([4fc2fe5](https://github.com/m6-o4/way-finding-coaching/commit/4fc2fe5c44f924d6075219cb3bb8a8bf6f485f39))
-* **blocks:** add programs block with CMS booking CTA ([d85541f](https://github.com/m6-o4/way-finding-coaching/commit/d85541f012c98121c2ac6cf42834920b0db50761))
-* **blocks:** add social proof block with testimonial carousel ([2579d71](https://github.com/m6-o4/way-finding-coaching/commit/2579d71ada1376d7ab966bd5b1a0ad4fd04fcee2))
-* **pages:** register meet-michelle block in page builder ([4e919ee](https://github.com/m6-o4/way-finding-coaching/commit/4e919eeb29807be2158383db02c5461f27f4c4b4))
+- **blocks:** add problem agitation block to pages
+  ([4fc2fe5](https://github.com/m6-o4/way-finding-coaching/commit/4fc2fe5c44f924d6075219cb3bb8a8bf6f485f39))
+- **blocks:** add programs block with CMS booking CTA
+  ([d85541f](https://github.com/m6-o4/way-finding-coaching/commit/d85541f012c98121c2ac6cf42834920b0db50761))
+- **blocks:** add social proof block with testimonial carousel
+  ([2579d71](https://github.com/m6-o4/way-finding-coaching/commit/2579d71ada1376d7ab966bd5b1a0ad4fd04fcee2))
+- **pages:** register meet-michelle block in page builder
+  ([4e919ee](https://github.com/m6-o4/way-finding-coaching/commit/4e919eeb29807be2158383db02c5461f27f4c4b4))
 
 # [1.7.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.6.0...v1.7.0) (2026-08-20)
 

@@ -21,6 +21,64 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-21] — FAQ block built (schema + accordion component + registration)
+- **What was built**: the `faq` Payload block end-to-end. Schema
+  (`src/payload/blocks/faq/schema.ts`): `headline` (required) +
+  `headlineDescription` (textarea), a `faqs` array of `question` (text,
+  required) + `answer` (textarea, required), plus the standard
+  `backgroundVariant` select. Component (`src/payload/blocks/faq/component.tsx`):
+  centered header + the shadcn `Accordion` (Base UI, single-open/collapsible by
+  default) constrained to `mx-auto max-w-3xl gap-4`, each `AccordionItem` a card
+  (`border-card-border rounded-lg border bg-card`, no shadow) with the question
+  (`text-foreground text-base font-semibold`) and answer
+  (`text-muted-foreground leading-relaxed`). Registered in `pages/schema.ts` and
+  `render-blocks.tsx` (`faq: FaqBlock`).
+- **Files touched**: `src/payload/blocks/faq/schema.ts` (new),
+  `src/payload/blocks/faq/component.tsx` (new),
+  `src/payload/collections/pages/schema.ts`,
+  `src/payload/blocks/render-blocks.tsx`.
+- **Notes**: the `accordion` primitive was already installed (`components/ui/accordion.tsx`,
+  Base UI). Base UI has no `type="single"`/`collapsible` props (those are Radix) —
+  single-open/collapsible is the default. `answer` is a `textarea`, so multi-line
+  answers render as one run of text (newlines collapse). `FaqBlock` registered in
+  `ui-registry.md`. Cross-ref build-plan 1.2.
+
+### [2026-08-21] — Program-benefits block built (originally "benefits", renamed)
+- **What was built**: the `programBenefits` Payload block end-to-end. Schema
+  (`src/payload/blocks/program-benefits/schema.ts`): `headline` (required) +
+  `headlineDescription` (textarea), a `programs` array (`maxRows: 9`) of
+  `programTitle` (required) + `benefits` array (`maxRows: 3`, each `title`
+  required), plus `backgroundVariant`. Component
+  (`src/payload/blocks/program-benefits/component.tsx`): centered header + a
+  `grid gap-8 md:grid-cols-3` of shadcn `Card`s (`border-card-border rounded-lg
+  border bg-card`, no shadow), `CardHeader`/`CardTitle` + a `Check`-icon list.
+  Registered in `pages/schema.ts` and `render-blocks.tsx`
+  (`programBenefits: ProgramBenefitsBlock`).
+- **Files touched**: `src/payload/blocks/program-benefits/schema.ts` (new),
+  `src/payload/blocks/program-benefits/component.tsx` (new),
+  `src/payload/collections/pages/schema.ts`,
+  `src/payload/blocks/render-blocks.tsx`.
+- **Notes**: first built as `benefits`, then renamed to `programBenefits` by Michael
+  (with `program` field → `programTitle`, and benefits `maxRows` 5→3); the old
+  `benefits/` directory was removed. `generate:types` regenerated `ProgramBenefits`.
+  `ProgramBenefitsBlock` registered in `ui-registry.md`. Cross-ref build-plan 1.2.
+
+### [2026-08-21] — Programs + posts-archive cards conformed to shadcn Card
+- **What was built**: converted the hand-rolled `<article>` cards in the `programs`
+  and `posts-archive` blocks to the shadcn `Card` primitives, conformed to the
+  theme (`group h-full gap-0 rounded-lg border border-card-border p-0 ring-0`,
+  re-adding plain `group` since `Card` ships the named `group/card`; the
+  posts-archive card keeps its `Link` wrapper + `cursor-pointer`). Also added
+  `border border-card-border` to the `meet-michelle` photo wrapper so it matches
+  the card border.
+- **Files touched**: `src/payload/blocks/programs/component.tsx`,
+  `src/payload/blocks/posts-archive/component.tsx`,
+  `src/payload/blocks/meet-michelle/component.tsx`.
+- **Notes**: `CardTitle` renders a `div` (no polymorphic `render`/`asChild` in this
+  project's `Card`), so program/post titles lost `h3` heading semantics — visual
+  output unchanged (serif `font-heading`, `text-xl font-semibold`). Entries updated
+  in `ui-registry.md`. Cross-ref build-plan 1.2.
+
 ### [2026-08-21] — meet-michelle block: title → headline + headlineDescription
 - **What was built**: conformed the `meet-michelle` block to Michael's schema
   change — `title` (text) was replaced by `headline` (required) + optional

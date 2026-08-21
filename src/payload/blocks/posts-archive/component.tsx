@@ -6,6 +6,12 @@ import { getPayload } from "payload";
 import { Container } from "@/components/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import config from "@/payload-config";
 import type { Post, PostsArchive } from "@/payload-types";
@@ -116,7 +122,7 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 
 							return (
 								<Link key={post.id} href={`/posts/${post.slug}`}>
-									<article className="group border-card-border bg-card flex h-full cursor-pointer flex-col overflow-hidden rounded-lg border transition-colors">
+									<Card className="group h-full cursor-pointer gap-0 overflow-hidden rounded-lg border border-card-border p-0 ring-0 transition-colors">
 										<div className="bg-muted relative aspect-16/10 overflow-hidden">
 											{imageSrc ? (
 												<>
@@ -142,18 +148,18 @@ const PostsArchiveBlock = async (props: PostsArchiveBlockProps) => {
 												<Badge variant="secondary">{category}</Badge>
 											</div>
 										</div>
-										<div className="flex flex-1 flex-col p-6">
+										<CardHeader className="block flex-1 p-6">
 											<div className="text-muted-foreground mb-3 flex items-center gap-2 text-xs">
 												<span>{formatDate(post.publishedAt)}</span>
 											</div>
-											<h3 className="text-foreground group-hover:text-primary mb-3 text-xl font-semibold transition-colors">
+											<CardTitle className="text-foreground group-hover:text-primary mb-3 text-xl font-semibold transition-colors">
 												{post.title}
-											</h3>
-											<p className="text-muted-foreground mb-4 line-clamp-4 text-sm leading-relaxed">
+											</CardTitle>
+											<CardDescription className="mb-4 line-clamp-4 leading-relaxed">
 												{post.meta?.description}
-											</p>
-										</div>
-									</article>
+											</CardDescription>
+										</CardHeader>
+									</Card>
 								</Link>
 							);
 						})}

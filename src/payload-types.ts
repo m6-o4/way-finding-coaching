@@ -73,6 +73,7 @@ export interface Config {
     callstoaction: Callstoaction;
     categories: Category;
     users: User;
+    leads: Lead;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -88,6 +89,7 @@ export interface Config {
     callstoaction: CallstoactionSelect<false> | CallstoactionSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -149,7 +151,7 @@ export interface UserAuthOperations {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   caption?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -215,6 +217,7 @@ export interface Page {
     | MeetMichelle
     | SocialProof
     | Faq
+    | LeadMagnet
   )[];
   meta?: {
     title?: string | null;
@@ -607,6 +610,34 @@ export interface Faq {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeadMagnet".
+ */
+export interface LeadMagnet {
+  headline: string;
+  headlineDescription?: string | null;
+  image: string | Media;
+  backgroundVariant: 'background' | 'muted';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'leadMagnet';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: string;
+  firstName: string;
+  email: string;
+  /**
+   * Which lead magnet PDF this submission was for.
+   */
+  guide?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -772,6 +803,10 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'leads';
+        value: string | Lead;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null);
@@ -899,6 +934,7 @@ export interface PagesSelect<T extends boolean = true> {
         meetMichelle?: T | MeetMichelleSelect<T>;
         socialProof?: T | SocialProofSelect<T>;
         faq?: T | FaqSelect<T>;
+        leadMagnet?: T | LeadMagnetSelect<T>;
       };
   meta?:
     | T
@@ -1117,6 +1153,18 @@ export interface FaqSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LeadMagnet_select".
+ */
+export interface LeadMagnetSelect<T extends boolean = true> {
+  headline?: T;
+  headlineDescription?: T;
+  image?: T;
+  backgroundVariant?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1204,6 +1252,17 @@ export interface UsersSelect<T extends boolean = true> {
   lastName?: T;
   role?: T;
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  firstName?: T;
+  email?: T;
+  guide?: T;
   updatedAt?: T;
   createdAt?: T;
 }

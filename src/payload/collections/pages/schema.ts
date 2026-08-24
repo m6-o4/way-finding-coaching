@@ -9,6 +9,7 @@ import { CallToAction } from "@/payload/blocks/call-to-action/schema";
 import { ContentEditor } from "@/payload/blocks/content-editor/schema";
 import { Faq } from "@/payload/blocks/faq/schema";
 import { Hero } from "@/payload/blocks/hero/schema";
+import { LeadMagnet } from "@/payload/blocks/lead-magnet/schema";
 import { MeetMichelle } from "@/payload/blocks/meet-michelle/schema";
 import { PostsArchive } from "@/payload/blocks/posts-archive/schema";
 import { ProblemAgitation } from "@/payload/blocks/problem-agitation/schema";
@@ -86,6 +87,7 @@ const Pages: CollectionConfig<"pages"> = {
 								MeetMichelle,
 								SocialProof,
 								Faq,
+								LeadMagnet,
 							],
 						},
 					],

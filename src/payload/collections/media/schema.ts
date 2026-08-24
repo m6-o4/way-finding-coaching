@@ -1,5 +1,5 @@
 import { isAdminOrEditor, isPublic } from "@/payload/access/access-control";
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, TextFieldSingleValidation } from "payload";
 
 const Media: CollectionConfig = {
 	slug: "media",
@@ -16,7 +16,19 @@ const Media: CollectionConfig = {
 		update: isAdminOrEditor,
 	},
 	fields: [
-		{ name: "alt", type: "text", label: "Alternative Text", required: true },
+		{
+			name: "alt",
+			type: "text",
+			label: "Alternative Text",
+			required: false,
+			validate: ((value, { data }) => {
+				const mediaData = data as { mimeType?: string } | undefined;
+				if (mediaData?.mimeType?.startsWith("image/") && !value) {
+					return "Alternative text is required for images.";
+				}
+				return true;
+			}) as TextFieldSingleValidation,
+		},
 		{ name: "caption", type: "text", label: "Caption" },
 	],
 	upload: {
@@ -28,7 +40,13 @@ const Media: CollectionConfig = {
 			{ name: "hero", width: 1920, height: 1080, position: "centre" },
 			{ name: "og", width: 1200, height: 630, crop: "center" },
 		],
-		mimeTypes: ["image/jpeg", "image/png", "image/svg+xml", "image/webp"],
+		mimeTypes: [
+			"application/pdf",
+			"image/jpeg",
+			"image/png",
+			"image/svg+xml",
+			"image/webp",
+		],
 	},
 };
 

@@ -32,7 +32,7 @@ const submitLead = async (data: {
 		return await captureLead(payload, parsed.data);
 	} catch {
 		console.error("[actions/lead] submitLead failed");
-		return { success: false, error: "Something went wrong — please try again." };
+		return { success: false, error: "Something went wrong, please try again." };
 	}
 };
 

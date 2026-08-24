@@ -2,13 +2,22 @@
 
 import { ArrowRight, BookOpen, Check, Mail, User } from "lucide-react";
 import Image from "next/image";
-import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, type FormEvent } from "react";
 
-import { submitLead } from "@/app/actions/lead";
+import { submitLead } from "@/app/actions/submit-guide-lead";
 import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { LeadMagnet } from "@/payload-types";
+
+// how long the success message shows before redirecting home
+const REDIRECT_DELAY_MS = 2500;
+
+// mirrors the server-side zod schema in submit-guide-lead.ts, so bad
+// input is caught before the request is even sent
+const MAX_NAME_LENGTH = 100;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // maps cms variant values to tailwind background utility classes
 const bgMap: Record<string, string> = {
@@ -23,6 +32,28 @@ const guideContents = [
 	"Somatic grounding techniques",
 ];
 
+type FieldErrors = { firstName?: string; email?: string };
+
+// validates trimmed form values before they're sent to the server,
+// returns an empty object when everything is valid
+const validate = (firstName: string, email: string): FieldErrors => {
+	const errors: FieldErrors = {};
+
+	if (!firstName) {
+		errors.firstName = "Please enter your first name.";
+	} else if (firstName.length > MAX_NAME_LENGTH) {
+		errors.firstName = `First name must be under ${MAX_NAME_LENGTH} characters.`;
+	}
+
+	if (!email) {
+		errors.email = "Please enter your email address.";
+	} else if (!EMAIL_PATTERN.test(email)) {
+		errors.email = "Please enter a valid email address.";
+	}
+
+	return errors;
+};
+
 const LeadMagnetBlock = ({
 	backgroundVariant = "background",
 	headline,
@@ -32,18 +63,34 @@ const LeadMagnetBlock = ({
 	const [submitted, setSubmitted] = useState(false);
 	const [pending, setPending] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+	const router = useRouter();
 
 	const backgroundClass = bgMap[backgroundVariant] ?? "bg-background";
+
+	useEffect(() => {
+		if (submitted) {
+			const timer = setTimeout(() => router.push("/"), REDIRECT_DELAY_MS);
+			return () => clearTimeout(timer);
+		}
+	}, [submitted, router]);
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
+		if (pending) return;
+
 		const form = new FormData(event.currentTarget);
-		const firstName = String(form.get("firstName") ?? "");
-		const email = String(form.get("email") ?? "");
+		const firstName = String(form.get("firstName") ?? "").trim();
+		const email = String(form.get("email") ?? "").trim();
+
+		const errors = validate(firstName, email);
+		setFieldErrors(errors);
+		setError(null);
+
+		if (Object.keys(errors).length > 0) return;
 
 		setPending(true);
-		setError(null);
 
 		const result = await submitLead({ firstName, email });
 
@@ -91,6 +138,7 @@ const LeadMagnetBlock = ({
 
 						<form
 							onSubmit={handleSubmit}
+							noValidate
 							className="border-card-border bg-card mt-10 rounded-lg border p-6 sm:p-8"
 						>
 							{submitted ? (
@@ -103,38 +151,71 @@ const LeadMagnetBlock = ({
 									</h2>
 									<p className="text-muted-foreground text-sm leading-6">
 										Check your inbox for the download link and a little encouragement for
-										the road ahead.
+										the road ahead. Taking you back to the homepage now...
 									</p>
 								</div>
 							) : (
 								<>
-									<label className="border-border text-muted-foreground focus-within:border-ring flex items-center gap-2 border-b pb-3 text-sm">
-										<User size={16} />
-										<span className="sr-only">Your first name</span>
-										<input
-											required
-											name="firstName"
-											placeholder="Your First Name"
-											className="text-foreground placeholder:text-muted-foreground w-full bg-transparent outline-none"
-										/>
-									</label>
-									<label className="border-border text-muted-foreground focus-within:border-ring mt-6 flex items-center gap-2 border-b pb-3 text-sm">
-										<Mail size={16} />
-										<span className="sr-only">Your email address</span>
-										<input
-											required
-											type="email"
-											name="email"
-											placeholder="Your Email Address"
-											className="text-foreground placeholder:text-muted-foreground w-full bg-transparent outline-none"
-										/>
-									</label>
+									<div>
+										<label
+											className={cn(
+												"border-border text-muted-foreground focus-within:border-ring flex items-center gap-2 border-b pb-3 text-sm",
+												fieldErrors.firstName && "border-destructive",
+											)}
+										>
+											<User size={16} />
+											<span className="sr-only">Your first name</span>
+											<input
+												name="firstName"
+												placeholder="Your First Name"
+												maxLength={MAX_NAME_LENGTH}
+												aria-invalid={Boolean(fieldErrors.firstName)}
+												aria-describedby={
+													fieldErrors.firstName ? "firstName-error" : undefined
+												}
+												className="text-foreground placeholder:text-muted-foreground w-full bg-transparent outline-none"
+											/>
+										</label>
+										{fieldErrors.firstName && (
+											<p id="firstName-error" className="text-destructive mt-1 text-xs">
+												{fieldErrors.firstName}
+											</p>
+										)}
+									</div>
+
+									<div className="mt-6">
+										<label
+											className={cn(
+												"border-border text-muted-foreground focus-within:border-ring flex items-center gap-2 border-b pb-3 text-sm",
+												fieldErrors.email && "border-destructive",
+											)}
+										>
+											<Mail size={16} />
+											<span className="sr-only">Your email address</span>
+											<input
+												type="email"
+												name="email"
+												placeholder="Your Email Address"
+												aria-invalid={Boolean(fieldErrors.email)}
+												aria-describedby={fieldErrors.email ? "email-error" : undefined}
+												className="text-foreground placeholder:text-muted-foreground w-full bg-transparent outline-none"
+											/>
+										</label>
+										{fieldErrors.email && (
+											<p id="email-error" className="text-destructive mt-1 text-xs">
+												{fieldErrors.email}
+											</p>
+										)}
+									</div>
+
 									<Button type="submit" disabled={pending} className="mt-7 w-full py-4">
 										{pending ? "Sending…" : "Send Me the Guide"}
 										{!pending && <ArrowRight />}
 									</Button>
 									{error && (
-										<p className="text-destructive mt-4 text-center text-sm">{error}</p>
+										<p className="text-destructive mt-4 text-center text-sm" role="alert">
+											{error}
+										</p>
 									)}
 									<p className="text-muted-foreground mt-4 text-center text-xs leading-5">
 										No spam. Just thoughtful tools to help you find your way.
@@ -145,7 +226,7 @@ const LeadMagnetBlock = ({
 					</div>
 
 					<div className="relative flex-1 lg:min-h-160">
-						<div className="border-card-border relative aspect-4/5 overflow-hidden rounded-lg border lg:aspect-auto lg:h-160">
+						<div className="border-card-border relative aspect-4/5 overflow-hidden rounded-lg border lg:aspect-auto lg:h-140">
 							{image && typeof image === "object" && (
 								<Image
 									src={image.url || ""}

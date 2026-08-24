@@ -1,3 +1,16 @@
+# [1.10.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.9.0...v1.10.0) (2026-08-24)
+
+
+### Bug Fixes
+
+* **leads:** deliver guide download link on lead capture ([1c2a07f](https://github.com/m6-o4/way-finding-coaching/commit/1c2a07fcf2374d7937b625e7f6329fd1fe1791d5))
+
+
+### Features
+
+* **blocks:** add lead magnet block with lead capture flow ([7b65695](https://github.com/m6-o4/way-finding-coaching/commit/7b656954ec8b627e06e24c5367f0ab35f51c0acd))
+* **media:** support PDF uploads and conditional alt text ([e83ee06](https://github.com/m6-o4/way-finding-coaching/commit/e83ee06fb691f5524cfdca1dcee880c6eed0aaa4))
+
 # [1.9.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.8.0...v1.9.0) (2026-08-21)
 
 

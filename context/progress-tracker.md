@@ -21,6 +21,31 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-24] — Lead-magnet block + lead-capture flow (component, action, service)
+- **What was built**: the `leadMagnet` block component and its submit path. Component
+  (`src/payload/blocks/lead-magnet/component.tsx`, `"use client"`): schema-driven
+  `headline`/`headlineDescription`/`image`/`backgroundVariant`, a fixed checklist of
+  guide contents, the lead-capture form (idle/submitting/success/error states), and a
+  side image with a caption card — token-conformant (no shadows, `font-heading`,
+  `border-card-border`, `bg-accent text-primary` check pills). Server Action
+  (`src/app/actions/lead.ts`): zod-validates `{ firstName, email }`, delegates to the
+  service. Service (`src/services/lead.service.ts`): creates the lead
+  (`overrideAccess: true`) and sends the visitor acknowledgement + owner notification
+  emails (both fail gracefully). Registered `leadMagnet: LeadMagnetBlock` in
+  `render-blocks.tsx`.
+- **Files touched**: `src/payload/blocks/lead-magnet/component.tsx` (new),
+  `src/app/actions/lead.ts` (new), `src/services/lead.service.ts` (new),
+  `src/payload/blocks/render-blocks.tsx`.
+- **Notes**: diverges from build-plan 3.3's form spec (react-hook-form +
+  `@hookform/resolvers`) — the provided reference used a plain form, so that was kept
+  (native `required`/`type="email"` + server zod). Follow-ups before `/guide` goes
+  live: (1) `leads.create` is `isAdminOrEditor`, not sealed (`isRestricted`) per the
+  architecture invariant; (2) the owner-notification email targets `RESEND_FROM_EMAIL`
+  until a dedicated `ownerNotificationEmail` global field exists; (3) the ack email has
+  no download link yet (the block has no guide-file field); (4) the `/guide` route +
+  stripped header are not built. `tsc --noEmit`, `eslint`, and `prettier --write` all
+  pass. Cross-ref build-plan 3.2/3.3.
+
 ### [2026-08-21] — FAQ block built (schema + accordion component + registration)
 - **What was built**: the `faq` Payload block end-to-end. Schema
   (`src/payload/blocks/faq/schema.ts`): `headline` (required) +

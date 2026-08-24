@@ -1,24 +1,27 @@
 # [1.10.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.9.0...v1.10.0) (2026-08-24)
 
-
 ### Bug Fixes
 
-* **leads:** deliver guide download link on lead capture ([1c2a07f](https://github.com/m6-o4/way-finding-coaching/commit/1c2a07fcf2374d7937b625e7f6329fd1fe1791d5))
-
+- **leads:** deliver guide download link on lead capture
+  ([1c2a07f](https://github.com/m6-o4/way-finding-coaching/commit/1c2a07fcf2374d7937b625e7f6329fd1fe1791d5))
 
 ### Features
 
-* **blocks:** add lead magnet block with lead capture flow ([7b65695](https://github.com/m6-o4/way-finding-coaching/commit/7b656954ec8b627e06e24c5367f0ab35f51c0acd))
-* **media:** support PDF uploads and conditional alt text ([e83ee06](https://github.com/m6-o4/way-finding-coaching/commit/e83ee06fb691f5524cfdca1dcee880c6eed0aaa4))
+- **blocks:** add lead magnet block with lead capture flow
+  ([7b65695](https://github.com/m6-o4/way-finding-coaching/commit/7b656954ec8b627e06e24c5367f0ab35f51c0acd))
+- **media:** support PDF uploads and conditional alt text
+  ([e83ee06](https://github.com/m6-o4/way-finding-coaching/commit/e83ee06fb691f5524cfdca1dcee880c6eed0aaa4))
 
 # [1.9.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.8.0...v1.9.0) (2026-08-21)
 
-
 ### Features
 
-* **blocks:** add anchor ids to block sections for navigation ([eda8036](https://github.com/m6-o4/way-finding-coaching/commit/eda80360dda86bc6b8a1fb22459fe8d80d0265a8))
-* **blocks:** add FAQ block ([31600b4](https://github.com/m6-o4/way-finding-coaching/commit/31600b4a815c20abacaace8ef6058176a804c9d0))
-* **blocks:** add program benefits block ([4572826](https://github.com/m6-o4/way-finding-coaching/commit/45728269d8517c4a663d590b623a76670a5825fb))
+- **blocks:** add anchor ids to block sections for navigation
+  ([eda8036](https://github.com/m6-o4/way-finding-coaching/commit/eda80360dda86bc6b8a1fb22459fe8d80d0265a8))
+- **blocks:** add FAQ block
+  ([31600b4](https://github.com/m6-o4/way-finding-coaching/commit/31600b4a815c20abacaace8ef6058176a804c9d0))
+- **blocks:** add program benefits block
+  ([4572826](https://github.com/m6-o4/way-finding-coaching/commit/45728269d8517c4a663d590b623a76670a5825fb))
 
 # [1.8.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.7.0...v1.8.0) (2026-08-21)
 

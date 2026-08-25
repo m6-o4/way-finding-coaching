@@ -21,6 +21,24 @@ every feature is finished.
 
 ## Log
 
+### [2026-08-25] — PostHog browser provider (review; build-plan 0.4, delivered / partially deferred)
+- **What was built**: reviewed the `PostHogProvider` (`src/components/providers/posthog-provider.tsx`,
+  authored by Michael) and its wiring in `src/app/(web)/layout.tsx`. The provider is a
+  `"use client"` wrapper around `posthog-js/react` that inits `posthog` in `useEffect`
+  with `api_host: NEXT_PUBLIC_POSTHOG_HOST` and `defaults: "2026-05-30"`; env vars are
+  read once at module scope (`posthogProjectToken`/`posthogHost`). Verified `defaults:
+  "2026-05-30"` is a real `ConfigDefaults` snapshot in `posthog-js` 1.418.11 (not a typo),
+  and that env names match `.env.example:38-39`.
+- **Files touched**: none by the agent (review only) — `src/components/providers/posthog-provider.tsx`,
+  `src/app/(web)/layout.tsx`.
+- **Notes**: browser install is complete and verified (PostHog dashboard reports install
+  complete — pageview received). The import-path bug was fixed: `layout.tsx:7` now imports
+  from `@/components/providers/posthog-provider`. Deferred until after client delivery
+  (not blockers): `posthog-node` + `lib/posthog-server.ts` (`flushAt: 1`, `flushInterval: 0`),
+  App Router pageview capture (`usePathname`/`useSearchParams`), `identify`/`reset` on Clerk
+  sign-in/out, reconciling the inlined init vs `lib/posthog-client.ts`, and updating the
+  stale `library-docs.md` PostHog entry ("not yet installed"). Cross-ref build-plan 0.4.
+
 ### [2026-08-24] — Lead-magnet block + lead-capture flow (component, action, service)
 - **What was built**: the `leadMagnet` block component and its submit path. Component
   (`src/payload/blocks/lead-magnet/component.tsx`, `"use client"`): schema-driven

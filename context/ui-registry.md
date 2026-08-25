@@ -123,6 +123,13 @@ registry never drifts from the actual codebase.
 - **Visual pattern**: `"use client"`. `bg-background`/`bg-muted` section (`py-16 lg:py-30`) wrapping a `Container`; content centered in `mx-auto max-w-3xl`. An optional header (`mb-12 text-center`) renders `headline` (`h2`, `text-foreground mb-4 text-3xl font-semibold md:text-4xl`) + `headlineDescription` (`text-muted-foreground`). The testimonials use the shadcn `Carousel` (`opts={{ loop: true }}`, `CarouselContent`/`CarouselItem` with `ml-0`/`pl-0` to drop the default slide gutter); each `CarouselItem` is a `figure` with an optional `rounded-full size-20 object-cover` headshot (`next/image`, only when `photo` is a populated object), a decorative serif opening quote mark (`font-heading text-primary mb-2 text-6xl leading-none font-bold`, `aria-hidden` + `select-none`) above the testimony, the testimony as a floating `blockquote` (`font-heading text-foreground text-2xl italic leading-relaxed md:text-3xl` — no card), and a `figcaption` with `text-foreground font-semibold` name + `text-muted-foreground text-sm` job title. Navigation is a `SocialProofNav` child (two `Button variant="outline" size="icon"` controls with `ChevronLeft`/`ChevronRight`, `aria-label`-ed, driven by the carousel's `useCarousel()` `scrollPrev`/`scrollNext`) centered below, rendered only when more than one item exists; empty array returns `null`. No shadows, no hardcoded hex.
 - **Used in**: `pages` documents via the `socialProof` block, registered in `src/payload/blocks/render-blocks.tsx`.
 
+### `PostHogProvider`
+- **Location**: `src/components/providers/posthog-provider.tsx`
+- **Purpose**: wraps the `(web)` app in PostHog analytics — the `posthog-js` browser client plus the React provider.
+- **Props**: `{ children: ReactNode }`.
+- **Visual pattern**: none — a non-visual `"use client"` context/provider wrapper that renders no markup of its own. Inits `posthog` in `useEffect` with `api_host: NEXT_PUBLIC_POSTHOG_HOST` and `defaults: "2026-05-30"`; env vars read once at module scope (`posthogProjectToken`, `posthogHost`).
+- **Used in**: `src/app/(web)/layout.tsx`.
+
 ### `LeadMagnetBlock`
 - **Location**: `src/payload/blocks/lead-magnet/component.tsx`
 - **Purpose**: the `/guide` lead-magnet section — a headline + description over a two-column layout: a checklist of what the guide covers plus the lead-capture form on the left, and the guide image with a floating caption card on the right.

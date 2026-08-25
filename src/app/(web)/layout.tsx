@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { heading, sans } from "@/lib/fonts";
 import { Footer } from "@/payload/blocks/globals/footer/component";
 import { Header } from "@/payload/blocks/globals/header/component";
+import { PostHogProvider } from "@/components/providers/posthog-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { getServerSideURL } from "@/payload/utilities/get-url";
 import { mergeOpenGraph } from "@/payload/utilities/merge-opengraph";
@@ -25,22 +26,24 @@ const WebLayout = (props: { children: ReactNode }) => {
 				className={cn(sans.variable, heading.variable)}
 			>
 				<body className="bg-muted flex min-h-screen flex-col antialiased">
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="light"
-						enableSystem
-						disableTransitionOnChange
-					>
-						<header>
-							<Header />
-						</header>
+					<PostHogProvider>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="light"
+							enableSystem
+							disableTransitionOnChange
+						>
+							<header>
+								<Header />
+							</header>
 
-						<main>{children}</main>
+							<main>{children}</main>
 
-						<footer className="mt-auto">
-							<Footer />
-						</footer>
-					</ThemeProvider>
+							<footer className="mt-auto">
+								<Footer />
+							</footer>
+						</ThemeProvider>
+					</PostHogProvider>
 				</body>
 			</html>
 		</ClerkProvider>

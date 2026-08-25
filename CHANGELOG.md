@@ -1,9 +1,9 @@
 # [1.11.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.10.0...v1.11.0) (2026-08-25)
 
-
 ### Features
 
-* **web:** add PostHog analytics integration ([ec5afe6](https://github.com/m6-o4/way-finding-coaching/commit/ec5afe6533383db9f80a8b97f23641537988e4e3))
+- **web:** add PostHog analytics integration
+  ([ec5afe6](https://github.com/m6-o4/way-finding-coaching/commit/ec5afe6533383db9f80a8b97f23641537988e4e3))
 
 # [1.10.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.9.0...v1.10.0) (2026-08-24)
 

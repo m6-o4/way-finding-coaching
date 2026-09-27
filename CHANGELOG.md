@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.11.0...v1.12.0) (2026-09-27)
+
+
+### Features
+
+* **web:** wire PostHog analytics events end to end ([02babce](https://github.com/m6-o4/way-finding-coaching/commit/02babceb82eced106dba3ce1abeab3a829a1d25b))
+
 # [1.11.0](https://github.com/m6-o4/way-finding-coaching/compare/v1.10.0...v1.11.0) (2026-08-25)
 
 ### Features

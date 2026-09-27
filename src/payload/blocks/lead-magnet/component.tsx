@@ -3,16 +3,22 @@
 import { ArrowRight, BookOpen, Check, Mail, User } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import { useEffect, useState, type FormEvent } from "react";
 
 import { submitLead } from "@/app/actions/submit-guide-lead";
 import { Container } from "@/components/container";
 import { Button } from "@/components/ui/button";
+import { captureEvent } from "@/lib/posthog-events";
 import { cn } from "@/lib/utils";
 import type { LeadMagnet } from "@/payload-types";
 
 // how long the success message shows before redirecting home
 const REDIRECT_DELAY_MS = 2500;
+
+// which page/CTA a submission came from, recorded on both the viewed and
+// captured events. /guide is the only page rendering this block today
+const LEAD_MAGNET_SOURCE = "guide-page";
 
 // mirrors the server-side zod schema in submit-guide-lead.ts, so bad
 // input is caught before the request is even sent
@@ -68,6 +74,14 @@ const LeadMagnetBlock = ({
 
 	const backgroundClass = bgMap[backgroundVariant] ?? "bg-background";
 
+	// reports the lead magnet being seen — the first step of the funnel
+	useEffect(() => {
+		captureEvent({
+			event: "lead_magnet_viewed",
+			properties: { source: LEAD_MAGNET_SOURCE },
+		});
+	}, []);
+
 	useEffect(() => {
 		if (submitted) {
 			const timer = setTimeout(() => router.push("/"), REDIRECT_DELAY_MS);
@@ -92,7 +106,14 @@ const LeadMagnetBlock = ({
 
 		setPending(true);
 
-		const result = await submitLead({ firstName, email });
+		// the browser's posthog id is forwarded so the server-side
+		// `lead_captured` event lands on the same person as the pageviews
+		const result = await submitLead({
+			firstName,
+			email,
+			source: LEAD_MAGNET_SOURCE,
+			distinctId: posthog.get_distinct_id(),
+		});
 
 		setPending(false);
 

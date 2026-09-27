@@ -1,6 +1,8 @@
 "use client";
 
+import posthog from "posthog-js";
 import { useEffect } from "react";
+
 import { useClerk } from "@clerk/nextjs";
 
 // sign-out has to happen client-side so clerk can clear its own cookies. a
@@ -9,6 +11,7 @@ const Page = () => {
 	const { signOut } = useClerk();
 
 	useEffect(() => {
+		posthog.reset();
 		void signOut({ redirectUrl: "/" });
 	}, [signOut]);
 

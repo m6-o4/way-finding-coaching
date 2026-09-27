@@ -125,10 +125,31 @@ registry never drifts from the actual codebase.
 
 ### `PostHogProvider`
 - **Location**: `src/components/providers/posthog-provider.tsx`
-- **Purpose**: wraps the `(web)` app in PostHog analytics — the `posthog-js` browser client plus the React provider.
+- **Purpose**: supplies the PostHog React context to the `(web)` app.
 - **Props**: `{ children: ReactNode }`.
-- **Visual pattern**: none — a non-visual `"use client"` context/provider wrapper that renders no markup of its own. Inits `posthog` in `useEffect` with `api_host: NEXT_PUBLIC_POSTHOG_HOST` and `defaults: "2026-05-30"`; env vars read once at module scope (`posthogProjectToken`, `posthogHost`).
+- **Visual pattern**: none — a non-visual `"use client"` context wrapper that renders no markup of its own. It does **not** initialise PostHog; the client is initialised once in `src/instrumentation-client.ts` so it exists on every route group. See the PostHog entry in `context/library-docs.md`.
 - **Used in**: `src/app/(web)/layout.tsx`.
+
+### `PostHogIdentify`
+- **Location**: `src/components/providers/posthog-identify.tsx`
+- **Purpose**: links the browser analytics session to the admin/editor who just signed in (Clerk user id only — no PII).
+- **Props**: none.
+- **Visual pattern**: none — a non-visual `"use client"` component that renders `null`. Watches Clerk's `useUser()` and calls `posthog.identify(user.id)` once per user id; it never calls `reset`, so anonymous public visitors are unaffected. `reset` runs separately in `(auth)/sign-out`.
+- **Used in**: `src/app/(auth)/sign-in/[[...sign-in]]/page.tsx`.
+
+### `BookingLink`
+- **Location**: `src/components/posthog/booking-link.tsx`
+- **Purpose**: a booking/discovery anchor that reports `booking_cta_clicked` before it follows the link.
+- **Props**: `next/link` props plus `location` (string — where the CTA sits) and optional `programName`.
+- **Visual pattern**: none of its own — it renders `next/link` and forwards everything to it. It is passed through `Button`'s `render` prop, so it must keep `"use client"` and forward props/ref to the anchor; that is what lets the blocks using it stay server components.
+- **Used in**: `src/payload/blocks/globals/header/component-client.tsx` (`location="header"`, desktop and mobile), `src/payload/blocks/programs/component.tsx` (`"programs"`), `src/payload/blocks/call-to-action/component.tsx` (`"call-to-action"`).
+
+### `PostViewTracker`
+- **Location**: `src/components/posthog/post-view-tracker.tsx`
+- **Purpose**: reports `post_viewed` once when a blog post renders.
+- **Props**: `postSlug` (string), `category` (optional string — the post's first category title).
+- **Visual pattern**: none — renders `null`. It exists so the post detail page stays a server component while the event fires on the client.
+- **Used in**: `src/app/(web)/posts/[slug]/page.tsx`.
 
 ### `LeadMagnetBlock`
 - **Location**: `src/payload/blocks/lead-magnet/component.tsx`

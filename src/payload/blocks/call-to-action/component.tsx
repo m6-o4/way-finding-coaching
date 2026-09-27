@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/container";
+import { BookingLink } from "@/components/posthog/booking-link";
 import { Button } from "@/components/ui/button";
 import { CallToAction } from "@/payload-types";
 
@@ -28,14 +29,15 @@ const CallToActionBlock = ({ calltoaction }: CallToAction) => {
 					{ctaDiscovery.link && (
 						<Button
 							render={
-								<Link
+								<BookingLink
+									location="call-to-action"
 									href={ctaDiscovery.link.url || "#"}
 									{...(ctaDiscovery.link.newTab
 										? { rel: "noopener noreferrer", target: "_blank" }
 										: {})}
 								>
 									{ctaDiscovery.link.label || "#"}
-								</Link>
+								</BookingLink>
 							}
 							nativeButton={false}
 							variant="secondary"

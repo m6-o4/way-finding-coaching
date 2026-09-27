@@ -1,22 +1,13 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
-
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
+import { ReactNode } from "react";
 
-const posthogProjectToken = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!;
-const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST!;
-
-const PostHogProvider = ({ children }: { children: ReactNode }) => {
-	useEffect(() => {
-		posthog.init(posthogProjectToken as string, {
-			api_host: posthogHost,
-			defaults: "2026-05-30",
-		});
-	}, []);
-
-	return <PHProvider client={posthog}>{children}</PHProvider>;
-};
+// supplies the react context for posthog hooks. the client itself is
+// initialised once in src/instrumentation-client.ts, before hydration
+const PostHogProvider = ({ children }: { children: ReactNode }) => (
+	<PHProvider client={posthog}>{children}</PHProvider>
+);
 
 export { PostHogProvider };

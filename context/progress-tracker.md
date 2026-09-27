@@ -21,6 +21,105 @@ every feature is finished.
 
 ## Log
 
+### [2026-09-27] — PostHog event sweep, build-plan 4.2 (all five events wired)
+- **What was built**: the five events from `context/code-standards.md`, end to end.
+  - `src/lib/posthog-events.ts` (new): the only client capture path. `captureEvent` takes a
+    closed union of the browser-side events, so an event that is not on the list fails to
+    compile instead of reaching posthog.
+  - `lead_magnet_viewed` — fired on mount by the `leadMagnet` block
+    (`src/payload/blocks/lead-magnet/component.tsx`) with `source: "guide-page"`.
+  - `lead_captured` — fired **server-side** in `src/app/actions/submit-guide-lead.ts` via
+    `getPostHogClient()`, which is what the `posthog-node` client was installed for. The form
+    forwards `posthog.get_distinct_id()` so the event lands on the same person as the
+    pageviews and the funnel is not split; the action falls back to `randomUUID()` when the
+    browser never had posthog. `source` is now a validated field of the action's input.
+  - `booking_cta_clicked` — `src/components/posthog/booking-link.tsx` (new), a client anchor
+    passed through `Button`'s `render` prop so the `programs` and `call-to-action` blocks
+    stay server components. `location` is `header`, `programs` or `call-to-action`.
+    `programName` is part of the event but unused: the programs block's booking link is
+    block-level, not per program.
+  - `nav_link_clicked` — header nav links, matched on the `#programs`/`#blogs` fragment or the
+    label (`TRACKED_NAV_ANCHORS` in `component-client.tsx`). The header's `navigationItems` is
+    empty in the CMS today, so it fires only once the client adds those anchors.
+  - `post_viewed` — `src/components/posthog/post-view-tracker.tsx` (new), rendered by
+    `src/app/(web)/posts/[slug]/page.tsx` with `postSlug` and the first category title.
+- **Files touched**: `src/lib/posthog-events.ts` (new),
+  `src/components/posthog/booking-link.tsx` (new),
+  `src/components/posthog/post-view-tracker.tsx` (new),
+  `src/app/actions/submit-guide-lead.ts`,
+  `src/payload/blocks/lead-magnet/component.tsx`,
+  `src/payload/blocks/globals/header/component-client.tsx`,
+  `src/payload/blocks/programs/component.tsx`,
+  `src/payload/blocks/call-to-action/component.tsx`,
+  `src/app/(web)/posts/[slug]/page.tsx`, `context/library-docs.md`,
+  `context/ui-registry.md`.
+- **Notes**: `/guide` is served as a **CMS page** (slug `guide`; its only block is `leadMagnet`),
+  confirmed via `/api/pages` — 3.3 was implemented this way deliberately, rather than as the
+  dedicated stripped-header route build-plan 3.3 describes, and 4.3/4.4 are closed through the
+  GitHub CI/CD path. `pnpm build` passes and lint is clean on every
+  changed file; the app chunks served for `/guide`, `/` and a post page each contain the
+  matching event string, and `posthog-node` remains absent from the client bundle (0 chunks).
+  Not verified: the live PostHog event stream (no browser available here), so build-plan 4.2's
+  own Verify journey (home → nav link → guide → submit → post) still needs a human. Known gaps
+  unchanged by this work: `architecture.md:460` documents a `source` field on `leads` that the
+  collection does not have, so the submission source lives in PostHog only; and nothing tracks
+  an actual PDF download, only the request for it. Cross-ref build-plan 4.2.
+
+### [2026-09-27] — PostHog install completed + pnpm config hygiene (build-plan 0.4)
+- **What was built**: finished the deferred PostHog 0.4 items and removed inert pnpm config.
+  - Removed the unused `@posthog/next`; added `posthog-node@^5.54.1`.
+  - `src/lib/posthog-server.ts` (new): lazy `getPostHogClient()` with `flushAt: 1`,
+    `flushInterval: 0` for the serverless-shaped runtime.
+  - Moved browser init out of `src/components/providers/posthog-provider.tsx` into
+    `src/instrumentation-client.ts`, so PostHog initialises on every route group before
+    hydration; the provider is now a context-only wrapper. This reconciles the deferred
+    "inlined init vs `lib/posthog-client.ts`" item — there is no `lib/posthog-client.ts`,
+    and build-plan 0.4's mention of one is superseded.
+  - `src/components/providers/posthog-identify.tsx` (new), mounted on
+    `(auth)/sign-in/[[...sign-in]]/page.tsx`; `posthog.reset()` added to
+    `(auth)/sign-out/page.tsx`.
+  - Config hygiene: deleted the inert `.npmrc` (`node-linker=hoisted`,
+    `legacy-peer-deps=true`, `supported-architectures[libc][]=musl` — pnpm 11+ reads only
+    auth/registry keys from `.npmrc`, so none were ever in effect; the Docker `deps` stage
+    does not copy `.npmrc` either, and the lockfile already carries the linuxmusl/native
+    entries), widened `engines.pnpm` to include 12, and aligned `graphql` from `^17.0.2` to
+    `^16.8.1` to match Payload 3.90.2's peer range (`pnpm peers check` is now clean).
+- **Files touched**: `src/instrumentation-client.ts` (new),
+  `src/lib/posthog-server.ts` (new), `src/components/providers/posthog-identify.tsx` (new),
+  `src/components/providers/posthog-provider.tsx`,
+  `src/app/(auth)/sign-in/[[...sign-in]]/page.tsx`, `src/app/(auth)/sign-out/page.tsx`,
+  `package.json`, `pnpm-lock.yaml`, `.npmrc` (deleted), `context/library-docs.md`.
+- **Notes**: App Router pageview capture needed no code — `defaults: "2026-05-30"` resolves
+  `capture_pageview` to `history_change` (verified in the installed bundle), and the same
+  snapshot marks localhost as internal/test, so local pageviews are not proof that
+  production analytics work. Verified with `pnpm build` and a dev-server check: `/sign-in`
+  loads `src_instrumentation-client_ts_*.js`, which contains the posthog `.init()`, token,
+  host and `defaults`. The five events (build-plan 4.2) remain unwired, and
+  `lead_magnet_viewed` is blocked until `/guide` (3.3) exists. `pnpm lint` still fails on
+  the pre-existing `src/components/ui/carousel.tsx:98` error (2 errors / 32 warnings, all
+  pre-existing). Cross-ref build-plan 0.4.
+
+### [2026-09-27] — Turbopack build panic fix (output file tracing includes)
+- **What was built**: fixed `pnpm build` failing on Next 16.3.6 with
+  `FATAL: An unexpected Turbopack error occurred` /
+  `TurbopackInternalError: reading file "...node_modules\.pnpm\node_modules\@img\colour"`
+  → `Access is denied. (os error 5)`.
+- **Files touched**: `next.config.ts` (`outputFileTracingIncludes` only).
+- **Notes**: root cause is a Next 16.3 regression (vercel/next.js#96626, #96255):
+  `NftJsonAsset::content` hashes every output-tracing include, and Turbopack's
+  include-glob walker emits a match on a symlink-to-directory as if it were a file,
+  so hashing it panics. pnpm canonicalizes store paths to
+  `node_modules/.pnpm/node_modules/...`, so the old globs
+  `node_modules/.pnpm/sharp@*/**/*` and `node_modules/@img/**/*` pulled in pnpm's
+  dependency symlinks (e.g. `@img/colour`), which crashed the build. Includes are now
+  narrowed to a file-only glob: `node_modules/.pnpm/@img*/node_modules/@img/*/lib/*`.
+  Do **not** re-broaden these to `**/*`; sharp's JS and `@img/colour` are traced
+  automatically, but the native `libvips-42.dll` / `libvips-cpp-8.18.6.dll` are not,
+  so the include is still required for `output: "standalone"`. Verified with a clean
+  `pnpm build`: the standalone `sharp` loads (`libvips 8.18.6`). Separately, `pnpm lint`
+  fails on pre-existing `src/components/ui/carousel.tsx:98`
+  (`react-hooks/set-state-in-effect`), unrelated to this change.
+
 ### [2026-08-25] — PostHog browser provider (review; build-plan 0.4, delivered / partially deferred)
 - **What was built**: reviewed the `PostHogProvider` (`src/components/providers/posthog-provider.tsx`,
   authored by Michael) and its wiring in `src/app/(web)/layout.tsx`. The provider is a

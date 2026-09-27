@@ -1,8 +1,8 @@
 import { ArrowRight, Check, Compass } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 import { Container } from "@/components/container";
+import { BookingLink } from "@/components/posthog/booking-link";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -47,7 +47,8 @@ const ProgramsBlock = ({
 						{bookingHref && (
 							<Button
 								render={
-									<Link
+									<BookingLink
+										location="programs"
 										href={bookingHref}
 										{...(bookingLink?.link?.newTab
 											? { rel: "noopener noreferrer", target: "_blank" }
@@ -55,7 +56,7 @@ const ProgramsBlock = ({
 									>
 										{bookingLink?.link?.label ?? "Book a Call"}
 										<ArrowRight className="ml-2 size-4 transition-transform group-hover/button:translate-x-1" />
-									</Link>
+									</BookingLink>
 								}
 								nativeButton={false}
 								variant="secondary"
@@ -80,7 +81,7 @@ const ProgramsBlock = ({
 							return (
 								<Card
 									key={program.id ?? index}
-									className="group h-full gap-0 overflow-hidden rounded-lg border border-card-border p-0 ring-0"
+									className="group border-card-border h-full gap-0 overflow-hidden rounded-lg border p-0 ring-0"
 								>
 									<div className="bg-muted relative aspect-16/10 overflow-hidden">
 										{imageSrc ? (

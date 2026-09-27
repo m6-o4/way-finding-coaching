@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(__filename);
 
 const nextConfig: NextConfig = {
-	allowedDevOrigins: ["fidelity-acorn-charbroil.ngrok-free.dev"],
+	allowedDevOrigins: ["app-dev.s3.co.ke"],
 	images: {
 		qualities: [25, 50, 75, 100],
 		remotePatterns: [
@@ -26,18 +26,13 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: "https",
-				hostname: "*.ngrok-free.dev",
+				hostname: "*.s3.co.ke",
 			},
 		],
 	},
 	output: "standalone",
 	outputFileTracingIncludes: {
-		"/*": [
-			"node_modules/sharp/**/*",
-			"node_modules/@img/**/*",
-			"node_modules/.pnpm/sharp@*/**/*",
-			"node_modules/.pnpm/@img*/**/*",
-		],
+		"/*": ["node_modules/.pnpm/@img*/node_modules/@img/*/lib/*"],
 	},
 	turbopack: {
 		root: path.resolve(dirname),

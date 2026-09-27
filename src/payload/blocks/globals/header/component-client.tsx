@@ -5,12 +5,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { BookingLink } from "@/components/posthog/booking-link";
 import { Button } from "@/components/ui/button";
+import { captureEvent } from "@/lib/posthog-events";
 import type { Header } from "@/payload-types";
 
 interface HeaderClientProps {
 	data: Header;
 }
+
+// the only header nav items that report a click. the cms stores nav links as
+// free text, so they are matched on the scroll-anchor fragment or, failing
+// that, the label
+const TRACKED_NAV_ANCHORS = ["programs", "blogs"];
+
+const trackedAnchor = (link: { label?: string | null; url?: string | null }) => {
+	const fragment = link.url?.startsWith("#") ? link.url.slice(1).toLowerCase() : null;
+	const label = link.label?.trim().toLowerCase() ?? null;
+	const candidate = fragment ?? label;
+
+	return candidate && TRACKED_NAV_ANCHORS.includes(candidate) ? candidate : null;
+};
 
 // manages the interactive navigation experience including mobile menu states and branding
 const HeaderClient = ({ data }: HeaderClientProps) => {
@@ -18,6 +33,13 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 	const { organizationName, organizationLogo, navigationItems, discovery } = data;
 	const parts = (organizationName ?? "").split("|").map((s) => s.trim());
 	const [main, accent] = parts.length > 1 ? parts : [organizationName ?? "", null];
+
+	const trackNavClick = (link: { label?: string | null; url?: string | null }) => {
+		const anchor = trackedAnchor(link);
+		if (anchor) {
+			captureEvent({ event: "nav_link_clicked", properties: { link: anchor } });
+		}
+	};
 
 	return (
 		<div className="absolute inset-x-0 top-0 z-20 px-4 pt-3 sm:px-8">
@@ -46,6 +68,7 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 							key={index}
 							href={link.url || "#"}
 							{...(link.newTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+							onClick={() => trackNavClick(link)}
 							className="text-muted-foreground hover:text-primary transition-colors"
 						>
 							{link.label || "#"}
@@ -56,14 +79,15 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 				{discovery?.link && (
 					<Button
 						render={
-							<Link
+							<BookingLink
+								location="header"
 								href={discovery.link.url || "#"}
 								{...(discovery.link.newTab
 									? { rel: "noopener noreferrer", target: "_blank" }
 									: {})}
 							>
 								{discovery.link.label || "#"}
-							</Link>
+							</BookingLink>
 						}
 						nativeButton={false}
 						className="hidden md:inline-flex"
@@ -87,13 +111,17 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 							key={index}
 							href={link.url || "#"}
 							{...(link.newTab ? { rel: "noopener noreferrer", target: "_blank" } : {})}
-							onClick={() => setMenuOpen(false)}
+							onClick={() => {
+								trackNavClick(link);
+								setMenuOpen(false);
+							}}
 						>
 							{link.label || "#"}
 						</Link>
 					))}
 					{discovery?.link && (
-						<Link
+						<BookingLink
+							location="header"
 							href={discovery.link.url || "#"}
 							{...(discovery.link.newTab
 								? { rel: "noopener noreferrer", target: "_blank" }
@@ -102,7 +130,7 @@ const HeaderClient = ({ data }: HeaderClientProps) => {
 							className="text-primary"
 						>
 							{discovery.link.label || "#"}
-						</Link>
+						</BookingLink>
 					)}
 				</div>
 			)}

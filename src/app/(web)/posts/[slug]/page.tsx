@@ -8,6 +8,7 @@ import { Container } from "@/components/container";
 import { LivePreviewListener } from "@/components/payload/live-preview-listener";
 import { PayloadRedirects } from "@/components/payload/payload-redirects";
 import { RichText } from "@/components/payload/rich-text";
+import { PostViewTracker } from "@/components/posthog/post-view-tracker";
 import { Badge } from "@/components/ui/badge";
 import config from "@/payload-config";
 import { formatAuthors } from "@/payload/utilities/format-authors";
@@ -64,6 +65,11 @@ const Page = async ({ params: paramsPromise }: Args) => {
 	if (!post) return <PayloadRedirects url={url} />;
 
 	const { content, categories, heroImage, populatedAuthors, publishedAt, title } = post;
+	const firstCategory = categories?.[0];
+	const category =
+		typeof firstCategory === "object" && firstCategory !== null
+			? (firstCategory.title ?? undefined)
+			: undefined;
 	const hasAuthors =
 		populatedAuthors &&
 		populatedAuthors.length > 0 &&
@@ -79,6 +85,8 @@ const Page = async ({ params: paramsPromise }: Args) => {
 
 				{/* synchronizes content state for real-time editor feedback */}
 				{draft && <LivePreviewListener />}
+
+				<PostViewTracker postSlug={slug} category={category} />
 
 				<div className="mx-auto max-w-5xl py-5">
 					<div className="mb-6 flex flex-wrap gap-2 text-sm uppercase">

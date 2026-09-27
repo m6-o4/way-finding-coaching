@@ -230,25 +230,69 @@ state. Log it and continue.
 
 # PostHog
 
+- **Version**: `posthog-js` 1.434.15 (browser), `posthog-node` 5.54.1 (server)
 - **Why**: product analytics. The only analytics tool used in this project.
-- **Status**: not yet installed.
+- **Status**: installed. Browser init in `src/instrumentation-client.ts`,
+  server client in `src/lib/posthog-server.ts`, provider in the `(web)`
+  layout, `identify`/`reset` on the auth routes.
 
 ### Traps
 
 - **Two clients, do not mix them.** `posthog-js` in the browser,
-  `posthog-node` on the server. The server client needs `flushAt: 1` and
+  `posthog-node` on the server. `posthog-node` must never be pulled into a
+  client component and the browser client must never be imported from a
+  server component. The server client needs `flushAt: 1` and
   `flushInterval: 0` in a serverless-shaped runtime or events are lost when
   the process ends.
-- **`identify` after an admin/editor signs in, `reset` on sign-out.** There's
-  no public-facing identity to worry about — the only session PostHog ever
-  identifies is Michelle's or an editor's own admin-panel session.
+- **Init lives in `src/instrumentation-client.ts`, not in the provider.**
+  Next runs that file on every route group, once per page load, before React
+  hydrates. Initialising in the `(web)` provider instead would mean PostHog
+  never exists on `/sign-in`, so `identify`/`reset` could not work there.
+  `src/components/providers/posthog-provider.tsx` now only supplies the React
+  context. There is no `lib/posthog-client.ts` — this supersedes build-plan
+  0.4's mention of one.
+- **`defaults: "2026-05-30"` already covers App Router pageviews.** That
+  snapshot resolves `capture_pageview` to `history_change`, so client-side
+  navigations are captured automatically — no `usePathname`/`useSearchParams`
+  plumbing is needed. The same snapshot sets `internal_or_test_user_hostname`
+  to localhost/127.0.0.1, so **local-dev pageviews are flagged internal/test
+  and must not be used to judge whether production analytics work.**
+- **`identify` is mounted on the sign-in route only** (`PostHogIdentify`), so
+  anonymous public visitors are never identified; `reset` runs in
+  `(auth)/sign-out`. The identity persists in the browser afterwards, which is
+  what carries the admin-panel session. There is no public-facing identity.
+- **Custom events go through `src/lib/posthog-events.ts`.** Its `captureEvent`
+  takes a closed union of the browser-side events, so an event that isn't on the
+  list in `context/code-standards.md` fails to compile. `lead_captured` is the
+  exception — it fires server-side from the Server Action via
+  `getPostHogClient()`, which is what the `posthog-node` client exists for.
+- **The lead funnel depends on the distinct id crossing the boundary.** The form
+  sends `posthog.get_distinct_id()` to `submitLead`, which passes it to
+  `capture()`. Without it the server event creates a second person and the
+  viewed→captured funnel reads zero, because PostHog funnels match people.
+- **Booking CTAs live in server components.** `src/components/posthog/booking-link.tsx`
+  is passed through `Button`'s `render` prop so the blocks stay server
+  components — don't convert a whole block to `"use client"` to attach an onClick.
+- **`lead_magnet_viewed` fires from the `leadMagnet` block, not the page.**
+  `/guide` is a CMS page and the block is the guide's content; it is currently
+  the only page rendering that block (verified via `/api/pages`). `source` is a
+  constant (`guide-page`) until the block grows a CMS field for it.
+- **`.npmrc` is not read for these settings on pnpm 11+.** pnpm 11+ reads only
+  auth/registry keys from `.npmrc`; everything else (`node-linker`,
+  `supported-architectures`, …) belongs in `pnpm-workspace.yaml` with a
+  camelCase key. The repo previously carried an inert `.npmrc` that made
+  `node-linker=hoisted` look active when the install was always `isolated`.
 
 ### Project rules
 
 **No personally identifying data. Ever.** No captured lead's name or email,
 no free text a visitor typed. Every custom event fired must be deliberate
 and pre-defined — never add an ad hoc `posthog.capture()` call without
-first deciding its name and properties as part of the same task.
+first deciding its name and properties as part of the same task. All five
+events in `context/code-standards.md` are wired as of build-plan 4.2; two
+guards enforce the rule in code: the closed union in `src/lib/posthog-events.ts`
+for the browser, and `source`/`distinctId` being the only properties the lead
+form is allowed to hand the Server Action.
 
 PostHog and the `leads` collection are two entirely separate systems.
 PostHog answers "how many people reached `/guide`"; the `leads` collection
